@@ -185,9 +185,25 @@ class TestCategorize(unittest.TestCase):
         self.assertEqual(categorize.categorize(
             "Last day of I Am Here for full-semester fall classes")[0], "attendance")
 
-    def test_essentials_are_real_categories(self):
-        for key in categorize.ESSENTIALS:
-            self.assertIn(key, categorize.keys())
+    def test_bundle_members_are_real_categories(self):
+        for bkey in categorize.bundle_keys():
+            members = categorize.bundle_members(bkey)
+            self.assertTrue(members, bkey)
+            for m in members:
+                self.assertIn(m, categorize.keys(), "{}: {}".format(bkey, m))
+
+    def test_bundles_have_labels_and_blurbs(self):
+        for bkey in categorize.bundle_keys():
+            self.assertTrue(categorize.bundle_label(bkey))
+            self.assertTrue(categorize.bundle_blurb(bkey))
+
+    def test_planning_is_holidays_plus_registration(self):
+        self.assertEqual(set(categorize.bundle_members("planning")),
+                         {"holidays", "registration"})
+
+    def test_essentials_alias_matches_bundle(self):
+        self.assertEqual(tuple(categorize.ESSENTIALS),
+                         tuple(categorize.bundle_members("essentials")))
 
     def test_audience_prefix_does_not_defeat_anchors(self):
         """A 'QTR: ' / 'CAN: ' prefix sits before ^-anchored patterns."""

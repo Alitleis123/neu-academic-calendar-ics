@@ -41,8 +41,37 @@ CATEGORIES = (
      "Conferral dates and when next term's schedule posts."),
 )
 
-# Convenience bundle: what most undergraduates actually want to see.
-ESSENTIALS = ("deadlines", "exams", "holidays")
+# Bundles are named unions of categories — a third thing alongside audience and
+# category. They exist so the common combinations are one subscription instead
+# of three, and they are published as their own feeds.
+# (key, label, member category keys, blurb)
+BUNDLES = (
+    ("essentials", "Essentials", ("deadlines", "exams", "holidays"),
+     "Anything that costs you money or cancels your day."),
+    ("planning", "Planning", ("holidays", "registration"),
+     "Time off and when to sign up for classes — for planning a term ahead."),
+)
+
+_BUNDLE_BY_KEY = {k: (l, m, b) for k, l, m, b in BUNDLES}
+
+# Retained: ESSENTIALS was the only bundle before BUNDLES existed.
+ESSENTIALS = _BUNDLE_BY_KEY["essentials"][1]
+
+
+def bundle_members(key):
+    return _BUNDLE_BY_KEY[key][1]
+
+
+def bundle_label(key):
+    return _BUNDLE_BY_KEY[key][0]
+
+
+def bundle_blurb(key):
+    return _BUNDLE_BY_KEY[key][2]
+
+
+def bundle_keys():
+    return [b[0] for b in BUNDLES]
 
 # (key, label, pattern tested against the row text, blurb)
 # Order matters. Anything unmatched is the default audience, "undergrad".

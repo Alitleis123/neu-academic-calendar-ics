@@ -12,11 +12,25 @@ big branches split further by category. Subscribe at whatever depth you want —
 one link per calendar. Base URL:
 `https://alitleis123.github.io/neu-academic-calendar-ics/`
 
+### Bundles
+
+Common combinations, pre-merged so each is one subscription instead of several.
+A bundle is a union of categories — nothing exclusive to it.
+
+| Bundle | Contains | Events | Feed |
+|---|---|--:|---|
+| **Essentials** — anything that costs money or cancels your day | deadlines + exams + holidays | 49 | `current-undergrad-essentials.ics` |
+| **Planning** — time off and when to sign up | holidays + registration | 16 | `current-undergrad-planning.ics` |
+
+Bundles exist for any audience large enough to be split by category, as
+`current-<audience>-<bundle>.ics`.
+
+### Full tree
+
 | Branch | Events | Feed |
 |---|--:|---|
 | Entire university-wide calendar | 159 | `current-all.ics` |
 | ├ **Boston undergraduate** | 121 | `current-undergrad.ics` |
-| │ ├ Essentials *(recommended)* | 49 | `current-undergrad-essentials.ics` |
 | │ ├ Attendance (I Am Here) | 36 | `current-undergrad-attendance.ics` |
 | │ ├ Add/drop & withdrawal | 27 | `current-undergrad-deadlines.ics` |
 | │ ├ Term start & end | 24 | `current-undergrad-classes.ics` |
@@ -81,8 +95,8 @@ ics.py         render RFC 5545 (CRLF, 75-octet folding, stable UIDs, CATEGORIES)
 build.py       orchestrate, sanity-check, write every feed variant to docs/
 ```
 
-**Adding or changing a category** is a one-line edit to `CATEGORIES` in
-`neucal/categorize.py`; the feeds, the index page, and the README table are all
+**Adding a category or a bundle** is a one-line edit to `CATEGORIES` or
+`BUNDLES` in `neucal/categorize.py`; the feeds, the index page, and the README table are all
 driven from it. Order matters — "I Am Here" rows mention classes too, so
 attendance is tested first.
 

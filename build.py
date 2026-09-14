@@ -91,8 +91,13 @@ def _variants(events):
 
         if len(in_aud) < CATEGORY_SPLIT_MIN:
             continue
-        yield ("-{}-essentials".format(aud), " {} essentials".format(label),
-               (lambda e, a=aud: e.audience == a and e.category in categorize.ESSENTIALS))
+        for bkey in categorize.bundle_keys():
+            members = categorize.bundle_members(bkey)
+            if not any(e.category in members for e in in_aud):
+                continue
+            yield ("-{}-{}".format(aud, bkey),
+                   " {} {}".format(label, categorize.bundle_label(bkey)),
+                   (lambda e, a=aud, m=members: e.audience == a and e.category in m))
         for cat in categorize.keys():
             if not any(e.category == cat for e in in_aud):
                 continue
@@ -196,18 +201,33 @@ def write_index(years, newest, stats, written):
         if not written.get("-" + aud):
             continue
         lines.append(row("-" + aud, categorize.audience_label(aud), 1))
-        lines.append(row("-{}-essentials".format(aud),
-                         "Essentials (deadlines + exams + holidays)", 2))
         for cat in categorize.keys():
             lines.append(row("-{}-{}".format(aud, cat), categorize.label(cat), 2))
     rows = "\n".join(l for l in lines if l)
+
+    bundle_rows = []
+    for bkey in categorize.bundle_keys():
+        sfx = "-undergrad-{}".format(bkey)
+        n = written.get(sfx)
+        if not n:
+            continue
+        members = " + ".join(categorize.label(m) for m in categorize.bundle_members(bkey))
+        bundle_rows.append(
+            '  <tr><td><strong>{label}</strong><br><small>{blurb}</small></td>'
+            '<td>{members}</td><td class="n">{n}</td>'
+            '<td><code class="f">current{sfx}.ics</code></td></tr>'.format(
+                label=escape(categorize.bundle_label(bkey)),
+                blurb=escape(categorize.bundle_blurb(bkey)),
+                members=escape(members), n=n, sfx=escape(sfx)))
+    bundles = "\n".join(bundle_rows)
 
     archive = "\n".join(
         '    <li><a href="neu-undergrad-{y}-all.ics">{y}</a>{tag}</li>'.format(
             y=escape(y), tag=" <em>(current)</em>" if y == newest else "")
         for y in reversed(years))
 
-    html = INDEX_HTML.format(rows=rows, archive=archive, newest=escape(newest),
+    html = INDEX_HTML.format(rows=rows, bundles=bundles, archive=archive,
+                             newest=escape(newest),
                              updated=dt.datetime.utcnow().strftime("%Y-%m-%d"))
     path = DOCS / "index.html"
     old = path.read_text() if path.exists() else ""
@@ -246,10 +266,18 @@ INDEX_HTML = """<!doctype html>
    <strong>category</strong> so you can subscribe to exactly the slice you
    want.</p>
 
-<h2>Pick a feed</h2>
-<p>The whole university-wide calendar is the root. Each audience is a branch;
-   the big ones split further by category. Subscribe at whatever depth suits
-   you &mdash; one link per calendar you want.</p>
+<h2>Bundles</h2>
+<p>Common combinations, pre-merged so they are one subscription instead of
+   several. Each is a union of the categories listed.</p>
+<table>
+  <tr><th>Bundle</th><th>Contains</th><th class="n">Events</th><th>URL</th></tr>
+{bundles}
+</table>
+
+<h2>Full tree</h2>
+<p>Or pick any single branch. The whole university-wide calendar is the root;
+   each audience is a branch, and the big ones split further by category.
+   Bundles above are unions of the category rows below.</p>
 <table>
   <tr><th>Branch</th><th class="n">Events</th><th>URL</th></tr>
 {rows}
