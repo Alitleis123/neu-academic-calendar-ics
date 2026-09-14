@@ -11,6 +11,14 @@ mention classes too, so attendance is tested before class start/end.
 
 import re
 
+# Campuses outside the Boston default. Match names individually, not one fixed
+# ordering such as "Oakland and Silicon Valley".
+OTHER_CAMPUSES = ("Vancouver", "Toronto", "Charlotte", "Oakland", "Silicon Valley",
+                  "Miami", "Seattle", "Arlington", "Burlington", "Portland")
+CAMPUS_ONLY = re.compile(
+    r"\([^)]*\b(?:{})\b[^)]*\bonly\s*\)".format(
+        "|".join(re.escape(name) for name in OTHER_CAMPUSES)), re.I)
+
 # (key, ICS CATEGORIES value, label, pattern, blurb)
 CATEGORIES = (
     ("attendance", "ATTENDANCE", "Attendance (I Am Here)",
@@ -18,14 +26,14 @@ CATEGORIES = (
      "Confirm-your-enrollment deadlines and the drops for missing them."),
     ("deadlines", "DEADLINE", "Add/drop & withdrawal deadlines",
      r"add/drop period|withdrawal period",
-     "The ones with money attached."),
+     "Add/drop and course withdrawal deadlines."),
     ("exams", "EXAM", "Final exam periods",
-     r"final exam",
+     r"final exam (?:period|window)",
      "Final exam windows."),
     ("holidays", "HOLIDAY", "Holidays & breaks",
      # "classes resume" normally gets absorbed into a Break span; it only
      # survives when its opening row is missing from that audience's rows.
-     r"no classes|Break\s*$|classes resume",
+     r"no classes|\b(?:fall|winter|spring|summer) break\b|classes resume",
      "No-class days, fall break, spring break."),
     ("registration", "REGISTRATION", "Registration periods",
      r"registration period",
@@ -35,7 +43,7 @@ CATEGORIES = (
      "First and last days of each term, session, and third."),
     ("grades", "GRADES", "Grade deadlines",
      r"grade deadline",
-     "When faculty must submit grades — effectively when grades post."),
+     "Deadlines for faculty to submit grades."),
     ("schedules", "SCHEDULE", "Class schedule posting",
      r"schedule available",
      "When next term's course schedule goes live, so you can plan picks."),
@@ -50,14 +58,14 @@ CATEGORIES = (
 # (key, label, member category keys, blurb)
 BUNDLES = (
     ("essentials", "Essentials", ("deadlines", "exams", "holidays"),
-     "Anything that costs you money or cancels your day."),
+     "Course deadlines, final exam periods, holidays and breaks."),
     ("planning", "Planning", ("holidays", "registration"),
-     "Time off and when to sign up for classes — for planning a term ahead."),
+     "Time off and registration windows for planning a term ahead."),
     # Derived, not listed: a hand-written member list would silently omit any
     # category added later.
     ("no-attendance", "Everything except attendance",
      tuple(c[0] for c in CATEGORIES if c[0] != "attendance"),
-     "The full calendar minus the I Am Here rows — the usual complaint."),
+     "All categories except enrollment confirmations and attendance drops."),
     ("drop-risk", "Drop risk", ("attendance", "deadlines"),
      "Every date that can remove you from a course: attendance confirmations "
      "and add/drop or withdrawal deadlines."),
@@ -70,7 +78,7 @@ BUNDLES = (
      "Degree conferral dates and schedule postings."),
 )
 
-_BUNDLE_BY_KEY = {k: (l, m, b) for k, l, m, b in BUNDLES}
+_BUNDLE_BY_KEY = {key: (label, members, blurb) for key, label, members, blurb in BUNDLES}
 
 # Retained: ESSENTIALS was the only bundle before BUNDLES existed.
 ESSENTIALS = _BUNDLE_BY_KEY["essentials"][1]
@@ -98,21 +106,21 @@ AUDIENCES = (
      "JD classes, Law exam periods, Law registration."),
     ("other-program", "ABSN & CPS", r"ABSN|College of Professional Studies",
      "Accelerated nursing and College of Professional Studies."),
-    ("canada-campus", "Canadian campuses", r"^CAN:",
+    ("canada-campus", "Canadian campuses", r"^CAN\s*:",
      "Vancouver and Toronto statutory holidays."),
-    ("quarter-calendar", "Quarter-calendar programs", r"^QTR:",
+    ("quarter-calendar", "Quarter-calendar programs", r"^QTR\s*:",
      "Programs on quarters rather than semesters."),
     ("other-campus", "Other US campuses", None,
      "Charlotte, Oakland, Silicon Valley, and similar campus-only rows."),
     ("faculty", "Faculty deadlines", r"^Faculty grade deadline",
-     "Grade submission deadlines — useful if you want to know when grades post."),
+     "Faculty grade submission deadlines. Student grade release times may differ."),
     ("grad-only", "Graduate-only", None,
      "Graduate registration that does not also name undergraduates."),
     ("undergrad", "Boston undergraduate", None,
      "The default: everything that applies to a Boston-campus undergraduate."),
 )
 
-_AUD_BY_KEY = {k: (l, b) for k, l, _, b in AUDIENCES}
+_AUD_BY_KEY = {key: (label, blurb) for key, label, _, blurb in AUDIENCES}
 
 _COMPILED = tuple((key, ics_val, re.compile(pat, re.I))
                   for key, ics_val, _, pat, _ in CATEGORIES)
@@ -121,19 +129,21 @@ _BY_KEY = {key: (ics_val, label, blurb)
            for key, ics_val, label, _, blurb in CATEGORIES}
 
 
-def audience(title, campus_only_rx, other_campuses_present):
+def audience(title, campus_only_rx=CAMPUS_ONLY, other_campuses_present=True):
     """Return the audience key for a row.
 
     `campus_only_rx` and `other_campuses_present` are supplied by parse.py so the
     campus list stays configurable in one place.
     """
+    title = " ".join(title.split())
     for key, _, pat, _ in AUDIENCES:
-        if pat and re.search(pat, title, re.I):
+        candidate = without_prefix(title) if key == "faculty" else title
+        if pat and re.search(pat, candidate, re.I):
             return key
-    if other_campuses_present and campus_only_rx.search(title) and "Boston" not in title:
-        return "other-campus"
-    # \b keeps this from matching inside "undergraduate"
-    if re.search(r"\bgraduate\b", title) and not re.search(r"\bundergraduate\b", title):
+        if key == "other-campus" and other_campuses_present and campus_only_rx.search(title):
+            if not re.search(r"\bBoston\b", title, re.I):
+                return key
+    if re.search(r"\bgraduate\b", title, re.I) and not re.search(r"\bundergraduate\b", title, re.I):
         return "grad-only"
     return "undergrad"
 
@@ -152,12 +162,27 @@ def audience_keys():
 
 # Audience prefixes like "QTR: " / "CAN: " / "USA: " sit in front of the text
 # and would defeat the ^-anchored category patterns.
-_AUD_PREFIX = re.compile(r"^[A-Z]{2,4}:\s*")
+_AUD_PREFIX = re.compile(r"^(?:(?:QTR|CAN|USA)\s*:\s*)+", re.I)
+
+
+def without_prefix(title):
+    return _AUD_PREFIX.sub("", " ".join(title.split()))
+
+
+def validate_scope(title):
+    """Unknown source scope must not silently enter the Boston default."""
+    prefix = re.match(r"^([A-Za-z]{2,5})\s*:", title)
+    if prefix and prefix[1].upper() not in ("QTR", "CAN", "USA"):
+        raise ValueError("Unknown audience prefix {!r} in {!r}".format(prefix[1], title))
+    for qualifier in re.findall(r"\(([^()]*\bonly\s*)\)", title, re.I):
+        campuses = ("Boston",) + OTHER_CAMPUSES
+        if not any(re.search(r"\b" + re.escape(name) + r"\b", qualifier, re.I) for name in campuses):
+            raise ValueError("Unknown audience qualifier {!r} in {!r}".format(qualifier, title))
 
 
 def categorize(title):
     """Return (key, ICS CATEGORIES value) for an event title."""
-    text = _AUD_PREFIX.sub("", title)
+    text = without_prefix(title)
     for key, ics_val, rx in _COMPILED:
         if rx.search(text):
             return key, ics_val
@@ -174,3 +199,28 @@ def blurb(key):
 
 def keys():
     return [c[0] for c in CATEGORIES]
+
+
+def ics_value(key):
+    """Use the event's assigned category, rather than reclassifying its title."""
+    try:
+        return _BY_KEY[key][0]
+    except KeyError as exc:
+        raise ValueError("Unknown category {!r}".format(key)) from exc
+
+
+def validate_config():
+    """Fail before generating filenames if classification configuration is invalid."""
+    groups = (keys(), bundle_keys(), audience_keys())
+    all_keys = [key for group in groups for key in group]
+    if len(all_keys) != len(set(all_keys)) or "all" in all_keys:
+        raise ValueError("Category, bundle and audience keys must be unique; 'all' is reserved")
+    if any(not re.fullmatch(r"[a-z]+(?:-[a-z]+)*", key) for key in all_keys):
+        raise ValueError("Classification keys must be lowercase filename-safe words")
+    values = [c[1] for c in CATEGORIES]
+    if len(set(values)) != len(values) or any(not re.fullmatch(r"[A-Z]+", v) for v in values):
+        raise ValueError("ICS category values must be unique uppercase words")
+    for key, label_text, members, description in BUNDLES:
+        if (len(set(members)) < 2 or len(set(members)) != len(members)
+                or not set(members) <= set(keys()) or not label_text or not description):
+            raise ValueError("Invalid bundle {!r}".format(key))

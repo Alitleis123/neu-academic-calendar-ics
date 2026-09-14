@@ -1,31 +1,28 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2025-2026 — Quarter-calendar programs Holidays & breaks
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — Q
- uarter-calendar programs Holidays & breaks. Source: https://registrar.nort
- heastern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+NAME:NEU 2025-2026 - Quarter-calendar programs Holidays & breaks
+DESCRIPTION:Northeastern Academic Calendar 2025-2026. Quarter-calendar prog
+ rams Holidays & breaks. Source: https://registrar.northeastern.edu/wp-cont
+ ent/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2025-2026 - Quarter-calendar programs Holidays 
+ & breaks
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2025-2026. Quarter-c
+ alendar programs Holidays & breaks. Source: https://registrar.northeastern
+ .edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
-UID:aa7562f99370e05d@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:23b770ab8f152abb@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20251124
-DTEND;VALUE=DATE:20251125
-SUMMARY:QTR: First day of fall break
+DTEND;VALUE=DATE:20251201
+SUMMARY:QTR: Fall Break
 TRANSP:TRANSPARENT
 CATEGORIES:HOLIDAY
-END:VEVENT
-BEGIN:VEVENT
-UID:5e9ae7e6b6d7b94f@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
-DTSTART;VALUE=DATE:20251201
-DTEND;VALUE=DATE:20251202
-SUMMARY:QTR: Fall classes resume
-TRANSP:TRANSPARENT
-CATEGORIES:HOLIDAY
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 END:VCALENDAR

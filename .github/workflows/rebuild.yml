@@ -2,64 +2,157 @@ name: Rebuild calendars
 
 on:
   schedule:
-    # Mondays 12:00 UTC. The registrar posts new calendars a few times a year;
-    # weekly is frequent enough to catch one within days.
     - cron: "0 12 * * 1"
   workflow_dispatch:
+    inputs:
+      accept_count_change:
+        description: "Accept a source count reduction after reviewing the PDF"
+        type: boolean
+        default: false
   push:
     branches: [main]
-    paths-ignore: ["docs/**"]
+  pull_request:
+    branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: rebuild
-  cancel-in-progress: false
+  group: calendars-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  rebuild:
+  verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.14"]
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          python-version: "3.12"
-
-      - name: Run tests
-        run: python -m unittest discover -s tests -v
-
-      - name: Rebuild calendars
-        # build.py exits non-zero if the registrar's format changed, so a
-        # broken parse fails the job instead of publishing an empty calendar.
-        run: python build.py
-
-      - name: Commit if the published calendars changed
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install test dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Lint
+        run: python -m ruff check .
+      - name: Run offline regression and integration tests
         run: |
-          # GitHub disables scheduled workflows on public repos after 60 days
-          # with no repository activity. The registrar changes dates rarely, so
-          # without a heartbeat this job would switch itself off. Commit a
-          # timestamp if we are approaching that window.
+          python -m coverage run -m unittest discover -s tests -v
+          python -m coverage report
+      - name: Audit runtime dependencies
+        if: matrix.python == '3.14'
+        run: python -m pip_audit -r requirements.txt --progress-spinner off
+
+  rebuild:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.14"
+          cache: pip
+      - name: Install runtime dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Rebuild and validate all calendars
+        env:
+          ACCEPT_COUNT_CHANGE: ${{ inputs.accept_count_change || false }}
+        run: |
+          args=()
+          if [ "$ACCEPT_COUNT_CHANGE" = "true" ]; then
+            args+=(--accept-count-change)
+          fi
+          python build.py --verbose --report "$RUNNER_TEMP/build-report.json" \
+            --log-file "$RUNNER_TEMP/build.log" "${args[@]}"
+
+      - name: Add build results to the run summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          report_path = pathlib.Path(os.environ["RUNNER_TEMP"]) / "build-report.json"
+          if report_path.exists():
+              report = json.loads(report_path.read_text())
+              lines = ["## Calendar build", "", "Status: " + report["status"], ""]
+              for year, result in sorted(report["years"].items()):
+                  if result["status"] == "valid":
+                      lines.append("- {}: {} rows, {} events, {} undergraduate".format(
+                          year, result["parsed"], result["kept"], result["audiences"].get("undergrad", 0)))
+                  else:
+                      lines.append("- {}: failed; see build diagnostics".format(year))
+              publication = report.get("publication", {})
+              lines += ["", "Changed files: {}".format(len(publication.get("changed", []))),
+                        "Warnings and errors: {}".format(len(report["warnings"])), ""]
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+                  summary.write("\n".join(lines))
+          PY
+
+      - name: Save diagnostics, including failed builds
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: build-diagnostics
+          path: |
+            ${{ runner.temp }}/build-report.json
+            ${{ runner.temp }}/build.log
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Commit calendar changes or a schedule keepalive
+        run: |
+          # Stage before comparing so newly introduced feeds are counted too.
+          git add -- docs/
           days_idle=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
           echo "Days since last commit: $days_idle"
-
-          if git diff --quiet -- docs/ && [ "$days_idle" -lt 50 ]; then
-            echo "No calendar changes, and the cron is not at risk."
+          if git diff --cached --quiet -- docs/ && [ "$days_idle" -lt 50 ]; then
+            echo "No calendar changes or keepalive needed."
             exit 0
           fi
 
-          date -u +%Y-%m-%d > docs/last-checked.txt
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/
-
-          if git diff --cached --quiet -- docs/ ':!docs/last-checked.txt'; then
-            msg="chore: keepalive, no calendar changes ($(date -u +%Y-%m-%d))"
+          if git diff --cached --quiet -- docs/; then
+            message="chore: calendar schedule keepalive ($(date -u +%Y-%m-%d))"
           else
-            msg="chore: rebuild calendars ($(date -u +%Y-%m-%d))"
-            echo "### Calendars updated" >> "$GITHUB_STEP_SUMMARY"
+            message="chore: rebuild calendars ($(date -u +%Y-%m-%d))"
           fi
-          git commit -m "$msg"
-          git push
+          date -u +%Y-%m-%d > docs/last-checked.txt
+          git add -- docs/last-checked.txt
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "$message"
+          # A concurrent source push fails here and prevents deployment.
+          git push origin HEAD:main
           git show --stat --oneline HEAD >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the validated site
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: docs
+
+  deploy:
+    needs: rebuild
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the validated artifact
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

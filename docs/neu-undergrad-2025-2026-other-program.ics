@@ -1,23 +1,28 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2025-2026 — ABSN & CPS
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — A
- BSN & CPS. Source: https://registrar.northeastern.edu/wp-content/uploads/s
- ites/9/2025-2026-Academic-Calendar.pdf
+NAME:NEU 2025-2026 - ABSN & CPS
+DESCRIPTION:Northeastern Academic Calendar 2025-2026. ABSN & CPS. Source: h
+ ttps://registrar.northeastern.edu/wp-content/uploads/sites/9/2025-2026-Aca
+ demic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2025-2026 - ABSN & CPS
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2025-2026. ABSN & CP
+ S. Source: https://registrar.northeastern.edu/wp-content/uploads/sites/9/2
+ 025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:a84223bcf929ad65@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260601
 DTEND;VALUE=DATE:20260602
 SUMMARY:QTR: First day of Fall registration period for continuing College o
  f Professional Studies graduate students
 TRANSP:TRANSPARENT
 CATEGORIES:REGISTRATION
+X-NEUCAL-AUDIENCE:other-program
 END:VEVENT
 END:VCALENDAR

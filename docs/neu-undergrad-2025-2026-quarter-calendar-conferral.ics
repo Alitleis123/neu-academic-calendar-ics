@@ -1,49 +1,64 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2025-2026 — Quarter-calendar programs Degree conferral
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — Q
- uarter-calendar programs Degree conferral. Source: https://registrar.north
- eastern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+NAME:NEU 2025-2026 - Quarter-calendar programs Degree conferral
+DESCRIPTION:Northeastern Academic Calendar 2025-2026. Quarter-calendar prog
+ rams Degree conferral. Source: https://registrar.northeastern.edu/wp-conte
+ nt/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2025-2026 - Quarter-calendar programs Degree co
+ nferral
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2025-2026. Quarter-c
+ alendar programs Degree conferral. Source: https://registrar.northeastern.
+ edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:2dca92883722fdcd@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20251214
 DTEND;VALUE=DATE:20251215
 SUMMARY:QTR: Fall degree conferral
 TRANSP:TRANSPARENT
 CATEGORIES:CONFERRAL
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:0bbc76e66ffb8109@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260329
 DTEND;VALUE=DATE:20260330
 SUMMARY:QTR: Winter degree conferral
 TRANSP:TRANSPARENT
 CATEGORIES:CONFERRAL
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:3c502966fee7fe62@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260628
 DTEND;VALUE=DATE:20260629
 SUMMARY:QTR: Spring degree conferral
 TRANSP:TRANSPARENT
 CATEGORIES:CONFERRAL
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:49ebd3212529ea3f@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260830
 DTEND;VALUE=DATE:20260831
 SUMMARY:QTR: Summer degree conferral
 TRANSP:TRANSPARENT
 CATEGORIES:CONFERRAL
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 END:VCALENDAR

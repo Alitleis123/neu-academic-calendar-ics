@@ -1,0 +1,5 @@
+-r requirements.txt
+coverage==7.16.1
+ruff==0.16.7
+icalendar==7.3.0
+pip-audit==2.10.1

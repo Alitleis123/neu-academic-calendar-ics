@@ -1,69 +1,69 @@
-"""Minimal PDF text extraction.
+"""Extract calendar text in PDF page order, rejecting incomplete documents."""
 
-The registrar's PDFs are Flate-compressed PDF 1.4 with plain text operators, so
-a dependency-free reader is enough — this avoids requiring poppler or PyPDF in
-CI. It is deliberately narrow: it understands only what these files use.
-"""
+import io
+import logging
 
-import base64
-import re
-import zlib
+from pypdf import PdfReader, apply_configuration
 
-_OCTAL = re.compile(rb"\\([0-7]{1,3})")
-# Text chunks, plus the operators that move to a new line. T* must be matched
-# separately: a trailing \b cannot follow "*", which is not a word character.
-_TOKEN = re.compile(rb"\((?:[^()\\]|\\.)*\)|\bT[dD]\b|T\*")
-_TEXT_OBJ = re.compile(rb"BT(.*?)ET", re.S)
-_STREAM = re.compile(rb"stream\r?\n")
+from .discover import MAX_DOWNLOAD_BYTES
 
-_ESCAPES = {
-    rb"\n": b"\n", rb"\r": b"\r", rb"\t": b"\t",
-    rb"\(": b"(", rb"\)": b")", rb"\\": b"\\",
-}
+LOG = logging.getLogger(__name__)
+MAX_PAGES = 40
+MAX_PAGE_BYTES = 2 * 1024 * 1024
+MAX_TEXT_CHARS = 500_000
 
 
-def _inflate(raw):
-    for attempt in (
-        lambda b: zlib.decompress(b),
-        lambda b: zlib.decompress(b, -15),
-        lambda b: zlib.decompress(base64.a85decode(b.strip().rstrip(b"~>"), adobe=False)),
-    ):
-        try:
-            return attempt(raw)
-        except Exception:
-            continue
-    return None
+class PdfError(RuntimeError):
+    """A PDF is malformed, too large, or has an unreadable page."""
 
 
-def _unescape(s):
-    s = _OCTAL.sub(lambda m: bytes([int(m.group(1), 8)]), s)
-    for k, v in _ESCAPES.items():
-        s = s.replace(k, v)
-    return s
-
-
+@apply_configuration(
+    maximum_declared_stream_length=MAX_PAGE_BYTES,
+    array_based_stream_maximum_output_length=MAX_PAGE_BYTES,
+    zlib_maximum_output_length=MAX_PAGE_BYTES,
+    lzw_maximum_output_length=MAX_PAGE_BYTES,
+    run_length_maximum_output_length=MAX_PAGE_BYTES,
+    page_tree_maximum_entries=200,
+    page_tree_maximum_depth=10,
+    xform_maximum_invocations_per_extraction=100,
+    jbig2dec_binary=None,
+)
 def to_lines(data):
-    """Extract text from a PDF as a list of lines, in page order."""
+    """Read each page with a real PDF tokenizer and font decoding.
+
+    The timezone text 'ET' inside a PDF string must never be mistaken for the
+    end-text operator, which truncated deadlines in the original regex reader.
+    """
+    if not data.startswith(b"%PDF-") or len(data) > MAX_DOWNLOAD_BYTES:
+        raise PdfError("Expected a PDF no larger than {} bytes".format(MAX_DOWNLOAD_BYTES))
+    if not data.rstrip().endswith(b"%%EOF"):
+        raise PdfError("PDF is truncated: missing final %%EOF marker")
     lines = []
-    for m in _STREAM.finditer(data):
-        start = m.end()
-        end = data.find(b"endstream", start)
-        if end == -1:
-            continue
-        content = _inflate(data[start:end])
-        if not content:
-            continue
-        for obj in _TEXT_OBJ.finditer(content):
-            parts = []
-            for t in _TOKEN.finditer(obj.group(1)):
-                tok = t.group(0)
-                if tok.startswith(b"("):
-                    parts.append(_unescape(tok[1:-1]).decode("cp1252", "replace"))
-                else:
-                    parts.append(" ")          # positioning op = line break
-            line = re.sub(r"\s+", " ", "".join(parts)).strip()
-            if line:
-                lines.append(line)
-    if not lines:
-        raise RuntimeError("No text extracted from PDF — format may have changed.")
+    chars = 0
+    try:
+        reader = PdfReader(io.BytesIO(data), strict=True)
+        if reader.is_encrypted:
+            raise PdfError("Encrypted PDFs are not supported")
+        if not 1 <= len(reader.pages) <= MAX_PAGES:
+            raise PdfError("Expected 1-{} pages, got {}".format(MAX_PAGES, len(reader.pages)))
+        for number, page in enumerate(reader.pages, 1):
+            contents = page.get_contents()
+            if contents is None or len(contents.get_data()) > MAX_PAGE_BYTES:
+                raise PdfError("Page {} has missing or oversized content".format(number))
+            text = page.extract_text()
+            if not text or not text.strip():
+                raise PdfError("Page {} has no text; scanned calendars need a different parser".format(number))
+            if "\ufffd" in text or "\x00" in text:
+                raise PdfError("Page {} contains undecodable text".format(number))
+            chars += len(text)
+            if chars > MAX_TEXT_CHARS:
+                raise PdfError("Extracted text exceeds {} characters".format(MAX_TEXT_CHARS))
+            page_lines = [line.strip() for line in text.splitlines() if line.strip()]
+            lines.extend(page_lines)
+            LOG.debug("Extracted PDF page=%d lines=%d chars=%d", number, len(page_lines), len(text))
+    except PdfError:
+        raise
+    except Exception as exc:
+        raise PdfError("PDF extraction failed: {}".format(exc)) from exc
+    LOG.info("Extracted PDF pages=%d lines=%d chars=%d", len(reader.pages), len(lines), chars)
     return lines

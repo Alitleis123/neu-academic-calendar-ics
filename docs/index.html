@@ -3,95 +3,98 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Northeastern Undergraduate Academic Calendar &rarr; iCalendar</title>
+<title>Northeastern academic calendar subscriptions</title>
 <style>
   body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-         max-width: 52rem; margin: 3rem auto; padding: 0 1.25rem; color: #1a1a1a; }
-  table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; }
-  td, th { text-align: left; padding: .6rem .5rem; border-bottom: 1px solid #e5e5e5;
-            vertical-align: top; }
-  td.n { text-align: right; color: #666; white-space: nowrap; }
-  td.d0 { font-weight: 600; }
-  td.d1 { padding-left: 1.5rem; font-weight: 600; }
-  td.d2 { padding-left: 3rem; color: #444; }
-  small { color: #666; }
-  code { background: #f4f4f5; padding: .15em .4em; border-radius: 4px;
-          font-size: .82em; word-break: break-all; }
-  footer { margin-top: 3rem; font-size: .85em; color: #666; }
+         max-width: 64rem; margin: 3rem auto; padding: 0 1.25rem; color: #1a1a1a; }
+  .table-scroll { overflow-x: auto; margin: 1.5rem 0; }
+  table { border-collapse: collapse; width: 100%; min-width: 48rem; }
+  th:last-child, td:last-child { min-width: 14rem; }
+  caption { text-align: left; font-weight: 600; padding-bottom: .5rem; }
+  td, th { text-align: left; padding: .6rem .5rem; border-bottom: 1px solid #ddd; vertical-align: top; }
+  tbody th { font-weight: 400; }
+  .n { text-align: right; color: #555; white-space: nowrap; }
+  .d0 { font-weight: 700; }
+  .d1 { padding-left: 1.5rem; font-weight: 600; }
+  .d2 { padding-left: 3rem; }
+  small { color: #555; }
+  a { color: #064d94; text-underline-offset: .15em; }
+  :focus-visible { outline: 3px solid #064d94; outline-offset: 3px; }
+  code { font-size: .82em; overflow-wrap: anywhere; }
+  footer { margin-top: 3rem; font-size: .9em; color: #555; }
 </style>
 </head>
 <body>
-<h1>Northeastern academic calendar, as iCalendar feeds</h1>
-<p>Northeastern publishes its academic calendar only as a PDF. This rebuilds it
-   weekly as <code>.ics</code> feeds, split by <strong>audience</strong> and
-   <strong>category</strong> so you can subscribe to exactly the slice you
-   want.</p>
+<main>
+<h1>Northeastern academic calendar subscriptions</h1>
+<p>Subscribe to the registrar's PDF calendar as <code>.ics</code> feeds.
+The mirror rebuilds weekly and groups events by audience and category.</p>
+<p>To subscribe in Google Calendar, choose <strong>Other calendars &rarr; + &rarr; From URL</strong>
+and paste a feed link. In Apple Calendar, choose <strong>File &rarr; New Calendar Subscription</strong>.
+Use the link address for a subscription. Opening a downloaded file imports a snapshot.</p>
+<p><code>current-*</code> feeds track the newest published academic year, currently <strong>2026-2027</strong>.
+A future year's publication switches these feeds before that year begins.
+Use a fixed-year archive link to keep following a particular year.</p>
 
-<h2>Bundles</h2>
-<p>Common combinations, pre-merged so they are one subscription instead of
-   several. Each is a union of the categories listed.</p>
+<h2>Boston undergraduate bundles</h2>
+<p>Each bundle combines the categories listed. Bundles overlap, so subscribing to several can show duplicate events.</p>
+<p>On small screens, scroll tables sideways to reach the feed links.</p>
+<div class="table-scroll" role="region" aria-label="Undergraduate bundles" tabindex="0">
 <table>
-  <tr><th>Bundle</th><th>Contains</th><th class="n">Events</th><th>URL</th></tr>
-  <tr><td><strong>Essentials</strong><br><small>Anything that costs you money or cancels your day.</small></td><td>Add/drop &amp; withdrawal deadlines + Final exam periods + Holidays &amp; breaks</td><td class="n">49</td><td><code class="f">current-undergrad-essentials.ics</code></td></tr>
-  <tr><td><strong>Planning</strong><br><small>Time off and when to sign up for classes — for planning a term ahead.</small></td><td>Holidays &amp; breaks + Registration periods</td><td class="n">16</td><td><code class="f">current-undergrad-planning.ics</code></td></tr>
-  <tr><td><strong>Everything except attendance</strong><br><small>The full calendar minus the I Am Here rows — the usual complaint.</small></td><td>Add/drop &amp; withdrawal deadlines + Final exam periods + Holidays &amp; breaks + Registration periods + Term start &amp; end dates + Grade deadlines + Class schedule posting + Degree conferral</td><td class="n">85</td><td><code class="f">current-undergrad-no-attendance.ics</code></td></tr>
-  <tr><td><strong>Drop risk</strong><br><small>Every date that can remove you from a course: attendance confirmations and add/drop or withdrawal deadlines.</small></td><td>Attendance (I Am Here) + Add/drop &amp; withdrawal deadlines</td><td class="n">63</td><td><code class="f">current-undergrad-drop-risk.ics</code></td></tr>
-  <tr><td><strong>Enrollment</strong><br><small>When next term&#x27;s schedule posts, and when your registration opens.</small></td><td>Registration periods + Class schedule posting</td><td class="n">6</td><td><code class="f">current-undergrad-enrollment.ics</code></td></tr>
-  <tr><td><strong>Term shape</strong><br><small>First and last days of every term, session and third, plus breaks.</small></td><td>Term start &amp; end dates + Holidays &amp; breaks</td><td class="n">37</td><td><code class="f">current-undergrad-term-shape.ics</code></td></tr>
-  <tr><td><strong>Conferral &amp; schedules</strong><br><small>Degree conferral dates and schedule postings.</small></td><td>Degree conferral + Class schedule posting</td><td class="n">9</td><td><code class="f">current-undergrad-admin.ics</code></td></tr>
+<caption>Common category combinations</caption>
+<thead><tr><th scope="col">Bundle</th><th scope="col">Contains</th><th scope="col" class="n">Events</th><th scope="col">Feed link</th></tr></thead>
+<tbody><tr><th scope="row">Essentials<br><small>Course deadlines, final exam periods, holidays and breaks.</small></th><td>Add/drop &amp; withdrawal deadlines + Final exam periods + Holidays &amp; breaks</td><td class="n">43</td><td><a class="feed" href="current-undergrad-essentials.ics"><code>current-undergrad-essentials.ics</code></a></td></tr>
+<tr><th scope="row">Planning<br><small>Time off and registration windows for planning a term ahead.</small></th><td>Holidays &amp; breaks + Registration periods</td><td class="n">16</td><td><a class="feed" href="current-undergrad-planning.ics"><code>current-undergrad-planning.ics</code></a></td></tr>
+<tr><th scope="row">Everything except attendance<br><small>All categories except enrollment confirmations and attendance drops.</small></th><td>Add/drop &amp; withdrawal deadlines + Final exam periods + Holidays &amp; breaks + Registration periods + Term start &amp; end dates + Grade deadlines + Class schedule posting + Degree conferral</td><td class="n">85</td><td><a class="feed" href="current-undergrad-no-attendance.ics"><code>current-undergrad-no-attendance.ics</code></a></td></tr>
+<tr><th scope="row">Drop risk<br><small>Every date that can remove you from a course: attendance confirmations and add/drop or withdrawal deadlines.</small></th><td>Attendance (I Am Here) + Add/drop &amp; withdrawal deadlines</td><td class="n">63</td><td><a class="feed" href="current-undergrad-drop-risk.ics"><code>current-undergrad-drop-risk.ics</code></a></td></tr>
+<tr><th scope="row">Enrollment<br><small>When next term&#x27;s schedule posts, and when your registration opens.</small></th><td>Registration periods + Class schedule posting</td><td class="n">6</td><td><a class="feed" href="current-undergrad-enrollment.ics"><code>current-undergrad-enrollment.ics</code></a></td></tr>
+<tr><th scope="row">Term shape<br><small>First and last days of every term, session and third, plus breaks.</small></th><td>Term start &amp; end dates + Holidays &amp; breaks</td><td class="n">43</td><td><a class="feed" href="current-undergrad-term-shape.ics"><code>current-undergrad-term-shape.ics</code></a></td></tr>
+<tr><th scope="row">Conferral &amp; schedules<br><small>Degree conferral dates and schedule postings.</small></th><td>Degree conferral + Class schedule posting</td><td class="n">9</td><td><a class="feed" href="current-undergrad-admin.ics"><code>current-undergrad-admin.ics</code></a></td></tr></tbody>
 </table>
+</div>
 
-<h2>Full tree</h2>
-<p>Or pick any single branch. The whole university-wide calendar is the root;
-   each audience is a branch, and the big ones split further by category.
-   Bundles above are unions of the category rows below.</p>
+<h2>All audiences and categories</h2>
+<p>Choose the university-wide feed, an audience, or a category within a larger audience.
+Events belong to one audience in this mirror. Check the registrar if a row applies to several populations.</p>
+<div class="table-scroll" role="region" aria-label="Audience and category feeds" tabindex="0">
 <table>
-  <tr><th>Branch</th><th class="n">Events</th><th>URL</th></tr>
-  <tr><td class="d0">Entire university-wide calendar</td><td class="n">159</td><td><code class="f">current-all.ics</code></td></tr>
-  <tr><td class="d1">School of Law</td><td class="n">7</td><td><code class="f">current-law.ics</code></td></tr>
-  <tr><td class="d1">ABSN &amp; CPS</td><td class="n">2</td><td><code class="f">current-other-program.ics</code></td></tr>
-  <tr><td class="d1">Canadian campuses</td><td class="n">9</td><td><code class="f">current-canada-campus.ics</code></td></tr>
-  <tr><td class="d1">Other US campuses</td><td class="n">2</td><td><code class="f">current-other-campus.ics</code></td></tr>
-  <tr><td class="d1">Faculty deadlines</td><td class="n">14</td><td><code class="f">current-faculty.ics</code></td></tr>
-  <tr><td class="d1">Graduate-only</td><td class="n">4</td><td><code class="f">current-grad-only.ics</code></td></tr>
-  <tr><td class="d1">Boston undergraduate</td><td class="n">121</td><td><code class="f">current-undergrad.ics</code></td></tr>
-  <tr><td class="d2">Attendance (I Am Here)</td><td class="n">36</td><td><code class="f">current-undergrad-attendance.ics</code></td></tr>
-  <tr><td class="d2">Add/drop &amp; withdrawal deadlines</td><td class="n">27</td><td><code class="f">current-undergrad-deadlines.ics</code></td></tr>
-  <tr><td class="d2">Final exam periods</td><td class="n">9</td><td><code class="f">current-undergrad-exams.ics</code></td></tr>
-  <tr><td class="d2">Holidays &amp; breaks</td><td class="n">13</td><td><code class="f">current-undergrad-holidays.ics</code></td></tr>
-  <tr><td class="d2">Registration periods</td><td class="n">3</td><td><code class="f">current-undergrad-registration.ics</code></td></tr>
-  <tr><td class="d2">Term start &amp; end dates</td><td class="n">24</td><td><code class="f">current-undergrad-classes.ics</code></td></tr>
-  <tr><td class="d2">Class schedule posting</td><td class="n">3</td><td><code class="f">current-undergrad-schedules.ics</code></td></tr>
-  <tr><td class="d2">Degree conferral</td><td class="n">6</td><td><code class="f">current-undergrad-conferral.ics</code></td></tr>
+<caption>Available feeds</caption>
+<thead><tr><th scope="col">Branch</th><th scope="col" class="n">Events</th><th scope="col">Feed link</th></tr></thead>
+<tbody><tr><th scope="row" class="d0">Entire university-wide calendar</th><td class="n">159</td><td><a class="feed" href="current-all.ics"><code>current-all.ics</code></a></td></tr>
+<tr><th scope="row" class="d1">School of Law</th><td class="n">9</td><td><a class="feed" href="current-law.ics"><code>current-law.ics</code></a></td></tr>
+<tr><th scope="row" class="d1">ABSN &amp; CPS</th><td class="n">2</td><td><a class="feed" href="current-other-program.ics"><code>current-other-program.ics</code></a></td></tr>
+<tr><th scope="row" class="d1">Canadian campuses</th><td class="n">9</td><td><a class="feed" href="current-canada-campus.ics"><code>current-canada-campus.ics</code></a></td></tr>
+<tr><th scope="row" class="d1">Other US campuses</th><td class="n">2</td><td><a class="feed" href="current-other-campus.ics"><code>current-other-campus.ics</code></a></td></tr>
+<tr><th scope="row" class="d1">Faculty deadlines</th><td class="n">12</td><td><a class="feed" href="current-faculty.ics"><code>current-faculty.ics</code></a></td></tr>
+<tr><th scope="row" class="d1">Graduate-only</th><td class="n">4</td><td><a class="feed" href="current-grad-only.ics"><code>current-grad-only.ics</code></a></td></tr>
+<tr><th scope="row" class="d1">Boston undergraduate</th><td class="n">121</td><td><a class="feed" href="current-undergrad.ics"><code>current-undergrad.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Attendance (I Am Here)</th><td class="n">36</td><td><a class="feed" href="current-undergrad-attendance.ics"><code>current-undergrad-attendance.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Add/drop &amp; withdrawal deadlines</th><td class="n">27</td><td><a class="feed" href="current-undergrad-deadlines.ics"><code>current-undergrad-deadlines.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Final exam periods</th><td class="n">3</td><td><a class="feed" href="current-undergrad-exams.ics"><code>current-undergrad-exams.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Holidays &amp; breaks</th><td class="n">13</td><td><a class="feed" href="current-undergrad-holidays.ics"><code>current-undergrad-holidays.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Registration periods</th><td class="n">3</td><td><a class="feed" href="current-undergrad-registration.ics"><code>current-undergrad-registration.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Term start &amp; end dates</th><td class="n">30</td><td><a class="feed" href="current-undergrad-classes.ics"><code>current-undergrad-classes.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Class schedule posting</th><td class="n">3</td><td><a class="feed" href="current-undergrad-schedules.ics"><code>current-undergrad-schedules.ics</code></a></td></tr>
+<tr><th scope="row" class="d2">Degree conferral</th><td class="n">6</td><td><a class="feed" href="current-undergrad-conferral.ics"><code>current-undergrad-conferral.ics</code></a></td></tr></tbody>
 </table>
+</div>
 
-<p>In Google Calendar: <strong>Other calendars &rarr; + &rarr; From URL</strong>,
-   paste one, subscribe. Subscribe to several and colour them separately.</p>
-<p>Every feed tracks the newest academic year automatically (currently
-   <strong>2026-2027</strong>), so you never re-subscribe.</p>
-<p><em>Subscribed feeds are read-only and Google refreshes them on its own
-   schedule &mdash; often up to 24 hours. For editable events, download a file
-   and use Import instead.</em></p>
-
-<h2>Archive</h2>
-<ul>
-    <li><a href="neu-undergrad-2026-2027-all.ics">2026-2027</a> <em>(current)</em></li>
-    <li><a href="neu-undergrad-2025-2026-all.ics">2025-2026</a></li>
-</ul>
-<p><small>Every branch exists per-year too, as
-   <code>neu-undergrad-&lt;year&gt;-&lt;branch&gt;.ics</code>.</small></p>
-
+<h2>Archives</h2>
+<ul><li><a href="neu-undergrad-2026-2027-all.ics">2026-2027</a> <em>current</em></li>
+<li><a href="neu-undergrad-2025-2026-all.ics">2025-2026</a></li></ul>
+<p>Fixed-year branches use <code>neu-undergrad-&lt;year&gt;-&lt;branch&gt;.ics</code>.
+Existing feed URLs remain available even when a category becomes empty.</p>
+<p>All events are all-day. Times mentioned in titles remain source text.
+Calendar apps choose their own refresh schedule, so changes may take time to appear.</p>
+</main>
 <footer>
-  <p>Rebuilt 2026-09-14. Source:
-     <a href="https://registrar.northeastern.edu/article/academic-calendar/">NEU
-     Office of the University Registrar</a>. Dates are subject to change and this
-     is an unofficial mirror &mdash; verify anything that matters against the
-     registrar.</p>
+<p>Rebuilt 2026-09-14. Source: <a href="https://registrar.northeastern.edu/article/academic-calendar/">Northeastern Office of the University Registrar</a>.
+This is an unofficial mirror. Verify deadlines against the registrar.</p>
+<p><a href="manifest.json">Calendar counts and source fingerprints</a></p>
 </footer>
 <script>
-  var base = location.href.replace(/(index\.html)?(\?.*)?(#.*)?$/, '');
-  document.querySelectorAll('code.f').forEach(function (el) {
-    el.textContent = base + el.textContent;
+  document.querySelectorAll('a.feed').forEach(function (link) {
+    link.querySelector('code').textContent = new URL(link.getAttribute('href'), document.baseURI).href;
   });
 </script>
 </body>

@@ -1,95 +1,133 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2025-2026 — Quarter-calendar programs Grade deadlines
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — Q
- uarter-calendar programs Grade deadlines. Source: https://registrar.northe
- astern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+NAME:NEU 2025-2026 - Quarter-calendar programs Grade deadlines
+DESCRIPTION:Northeastern Academic Calendar 2025-2026. Quarter-calendar prog
+ rams Grade deadlines. Source: https://registrar.northeastern.edu/wp-conten
+ t/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2025-2026 - Quarter-calendar programs Grade dea
+ dlines
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2025-2026. Quarter-c
+ alendar programs Grade deadlines. Source: https://registrar.northeastern.e
+ du/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
-UID:a44c5477e54035e2@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:0f9fb78b73682dc9@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20251028
 DTEND;VALUE=DATE:20251029
 SUMMARY:QTR: Faculty grade deadline for first-half fall classes at 2:00 p.m
- .
+ . ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:4e02b5354f0f6063@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:807a593b4a5ae58c@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20251216
 DTEND;VALUE=DATE:20251217
-SUMMARY:QTR: Faculty grade deadline for full-quarter and second-half fall
+SUMMARY:QTR: Faculty grade deadline for full-quarter and second-half fall c
+ lasses at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:10b9679f408da5a2@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:5ce87f25b1aae982@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260217
 DTEND;VALUE=DATE:20260218
-SUMMARY:QTR: Faculty grade deadline for first-half winter classes at 2:00
+SUMMARY:QTR: Faculty grade deadline for first-half winter classes at 2:00 p
+ .m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:466bc9f1d9d2d947@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:55887c1fe8fc1796@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260331
 DTEND;VALUE=DATE:20260401
-SUMMARY:QTR: Faculty grade deadline for full-quarter and second-half
+SUMMARY:QTR: Faculty grade deadline for full-quarter and second-half winter
+  classes at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:fd7f84306c2b1af7@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:1d1962c36ebed6a8@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260519
 DTEND;VALUE=DATE:20260520
-SUMMARY:QTR: Faculty grade deadline for first-half spring classes at 2:00
+SUMMARY:QTR: Faculty grade deadline for first-half spring classes at 2:00 p
+ .m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:186627db1aefbf62@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:d12211abc85236b4@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260630
 DTEND;VALUE=DATE:20260701
-SUMMARY:QTR: Faculty grade deadline for full-quarter and Session B spring
+SUMMARY:QTR: Faculty grade deadline for full-quarter and Session B spring c
+ lasses at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:bf0f3444b8448d2d@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:058bac28d6579611@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260804
 DTEND;VALUE=DATE:20260805
-SUMMARY:QTR: Faculty grade deadline for Session A summer classes at
+SUMMARY:QTR: Faculty grade deadline for Session A summer classes at 2:00 p.
+ m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:86e44dbd8d67a145@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:92025ace19c19300@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260818
 DTEND;VALUE=DATE:20260819
-SUMMARY:QTR: Faculty grade deadline for six-week summer classes at
+SUMMARY:QTR: Faculty grade deadline for six-week summer classes at 2:00 p.m
+ . ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
-UID:bc66ccd649dddbfc@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:0a9b7645a3d4bd49@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260901
 DTEND;VALUE=DATE:20260902
-SUMMARY:QTR: Faculty grade deadline for full-quarter and Session B
+SUMMARY:QTR: Faculty grade deadline for full-quarter and Session B summer c
+ lasses at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 END:VCALENDAR

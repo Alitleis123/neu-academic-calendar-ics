@@ -1,11 +1,11 @@
 import datetime as dt
-import sys
 import pathlib
+import sys
 import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
-from neucal import categorize, ics, parse, pdf
+from neucal import categorize, ics, parse
 
 
 class TestParseRows(unittest.TestCase):
@@ -105,14 +105,15 @@ class TestICS(unittest.TestCase):
     def test_lines_folded_to_75_octets(self):
         long = ics.render([(dt.datetime(2026, 9, 9), dt.datetime(2026, 9, 9), "x" * 200)],
                           "n", "d", "ns", stamp=dt.datetime(2026, 1, 1))
-        self.assertTrue(all(len(l.encode()) <= 75 for l in long.split("\r\n")))
+        self.assertTrue(all(len(line.encode()) <= 75 for line in long.split("\r\n")))
 
     def test_uid_stable_across_runs(self):
         again = ics.render(
             [(dt.datetime(2026, 9, 9), dt.datetime(2026, 9, 9), "Classes begin, for real"),
              (dt.datetime(2026, 11, 25), dt.datetime(2026, 11, 29), "Fall Break")],
             "Test", "Desc", "test-ns", stamp=dt.datetime(2030, 6, 6))
-        uids = lambda t: [l for l in t.split("\r\n") if l.startswith("UID:")]
+        def uids(text):
+            return [line for line in text.split("\r\n") if line.startswith("UID:")]
         self.assertEqual(uids(self.text), uids(again))
 
 
@@ -121,26 +122,6 @@ class TestQuarterCalendar(unittest.TestCase):
         self.assertEqual(
             parse.exclusion_reason("QTR: First day of full-quarter fall classes"),
             "quarter-calendar")
-
-
-class TestPdfTokens(unittest.TestCase):
-    def test_next_line_operator_is_matched(self):
-        """T* marks a line break; a trailing \\b cannot follow '*', so it needs
-        its own alternative. Missing it glued words together across wraps."""
-        found = [m.group(0) for m in pdf._TOKEN.finditer(b"(for) T* (full-semester)")]
-        self.assertIn(b"T*", found)
-
-    def test_wrapped_text_gets_a_space(self):
-        lines = []
-        content = b"BT (I Am Here for) T* (full-semester) ET"
-        import re as _re
-        for obj in _re.finditer(rb"BT(.*?)ET", content, _re.S):
-            parts = []
-            for t in pdf._TOKEN.finditer(obj.group(1)):
-                tok = t.group(0)
-                parts.append(tok[1:-1].decode() if tok.startswith(b"(") else " ")
-            lines.append(_re.sub(r"\s+", " ", "".join(parts)).strip())
-        self.assertEqual(lines, ["I Am Here for full-semester"])
 
 
 class TestAudience(unittest.TestCase):

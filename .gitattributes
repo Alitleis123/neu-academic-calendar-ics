@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+# RFC 5545 requires CRLF, and folding can put significant spaces at line ends.
+*.ics -text -whitespace linguist-generated=true
+*.pdf binary
+docs/index.html linguist-generated=true
+docs/manifest.json linguist-generated=true

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
+CALSCALE:GREGORIAN
+NAME:NEU 2026-2027 - Quarter-calendar programs Registration periods
+DESCRIPTION:Northeastern Academic Calendar 2026-2027. Quarter-calendar prog
+ rams Registration periods. Source: https://registrar.northeastern.edu/wp-c
+ ontent/uploads/sites/9/2026-2027-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2026-2027 - Quarter-calendar programs Registrat
+ ion periods
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2026-2027. Quarter-c
+ alendar programs Registration periods. Source: https://registrar.northeast
+ ern.edu/wp-content/uploads/sites/9/2026-2027-Academic-Calendar.pdf
+REFRESH-INTERVAL;VALUE=DURATION:P1D
+X-PUBLISHED-TTL:P1D
+END:VCALENDAR
