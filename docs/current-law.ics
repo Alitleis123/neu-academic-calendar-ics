@@ -1,0 +1,82 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
+ N
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEU Undergrad 2026-2027 School of Law
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 (Bost
+ on undergraduate School of Law). Source: https://registrar.northeastern.ed
+ u/wp-content/uploads/sites/9/2026-2027-Academic-Calendar.pdf
+REFRESH-INTERVAL;VALUE=DURATION:P1D
+X-PUBLISHED-TTL:P1D
+BEGIN:VEVENT
+UID:93403938ffcf1225@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20260902
+DTEND;VALUE=DATE:20260903
+SUMMARY:First day of first-year JD fall classes for School of Law
+TRANSP:TRANSPARENT
+CATEGORIES:CLASS
+END:VEVENT
+BEGIN:VEVENT
+UID:4193aae2434cea3c@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20261207
+DTEND;VALUE=DATE:20261208
+SUMMARY:First day of fall final exam period for School of Law (if applicabl
+ e)
+TRANSP:TRANSPARENT
+CATEGORIES:EXAM
+END:VEVENT
+BEGIN:VEVENT
+UID:1f0c5f1724fa6ccc@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20270420
+DTEND;VALUE=DATE:20270421
+SUMMARY:First day of spring final exam period for School of Law (if applica
+ ble)
+TRANSP:TRANSPARENT
+CATEGORIES:EXAM
+END:VEVENT
+BEGIN:VEVENT
+UID:be33960d18f90dae@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20270512
+DTEND;VALUE=DATE:20270513
+SUMMARY:First day of Fall registration period for new graduate students (ex
+ cluding Law)
+TRANSP:TRANSPARENT
+CATEGORIES:REGISTRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:0fdee08511a542e0@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20270719
+DTEND;VALUE=DATE:20270720
+SUMMARY:First day of Fall registration period for new and continuing Law st
+ udents
+TRANSP:TRANSPARENT
+CATEGORIES:REGISTRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:980c458f4e15368a@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20270809
+DTEND;VALUE=DATE:20270810
+SUMMARY:First day of summer final exam period for School of Law (if applica
+ ble)
+TRANSP:TRANSPARENT
+CATEGORIES:EXAM
+END:VEVENT
+BEGIN:VEVENT
+UID:efe14992ed42c02a@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20270921
+DTEND;VALUE=DATE:20270922
+SUMMARY:Faculty grade deadline for full-semester summer classes for School 
+ of Law at 2:00 p.m.
+TRANSP:TRANSPARENT
+CATEGORIES:GRADES
+END:VEVENT
+END:VCALENDAR

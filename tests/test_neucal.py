@@ -143,6 +143,27 @@ class TestPdfTokens(unittest.TestCase):
         self.assertEqual(lines, ["I Am Here for full-semester"])
 
 
+class TestAudience(unittest.TestCase):
+    def test_audiences(self):
+        for text, key in [
+            ("First day of first-year JD fall classes for School of Law", "law"),
+            ("CAN: Labour Day, no classes", "canada-campus"),
+            ("QTR: First day of full-quarter fall classes", "quarter-calendar"),
+            ("USA: Good Friday, no classes (Charlotte only)", "other-campus"),
+            ("Faculty grade deadline for Session A fall classes at 2:00", "faculty"),
+            ("First day of spring registration for new graduate students", "grad-only"),
+            ("First day of Fall registration period for ABSN Students", "other-program"),
+            ("Last day of add/drop period for full-semester fall classes", "undergrad"),
+            ("USA: Patriots Day, no classes (Boston and Portland only)", "undergrad"),
+        ]:
+            self.assertEqual(parse.audience(text), key, text)
+
+    def test_nothing_is_discarded(self):
+        """Every row lands in some audience — the tree has no hole."""
+        for text in ["anything at all", "CAN: x", "Faculty grade deadline for y"]:
+            self.assertIn(parse.audience(text), parse.categorize.audience_keys())
+
+
 class TestCategorize(unittest.TestCase):
     def test_known_categories(self):
         for title, key in [
@@ -167,6 +188,18 @@ class TestCategorize(unittest.TestCase):
     def test_essentials_are_real_categories(self):
         for key in categorize.ESSENTIALS:
             self.assertIn(key, categorize.keys())
+
+    def test_audience_prefix_does_not_defeat_anchors(self):
+        """A 'QTR: ' / 'CAN: ' prefix sits before ^-anchored patterns."""
+        self.assertEqual(categorize.categorize(
+            "QTR: First day of full-quarter fall classes")[0], "classes")
+
+    def test_grade_deadlines_have_a_category(self):
+        self.assertEqual(categorize.categorize(
+            "Faculty grade deadline for initial-third fall classes at 2:00")[0], "grades")
+
+    def test_unpaired_resume_row_is_a_holiday(self):
+        self.assertEqual(categorize.categorize("QTR: Fall classes resume")[0], "holidays")
 
     def test_ics_value_is_uppercase(self):
         self.assertEqual(categorize.categorize("Fall Break")[1], "HOLIDAY")

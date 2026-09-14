@@ -1,0 +1,51 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
+ N
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:NEU Undergrad 2026-2027 Graduate-only
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 (Bost
+ on undergraduate Graduate-only). Source: https://registrar.northeastern.ed
+ u/wp-content/uploads/sites/9/2026-2027-Academic-Calendar.pdf
+REFRESH-INTERVAL;VALUE=DURATION:P1D
+X-PUBLISHED-TTL:P1D
+BEGIN:VEVENT
+UID:f6d4c059ae63ee10@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:First day of spring registration period for new graduate students
+TRANSP:TRANSPARENT
+CATEGORIES:REGISTRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:4e959cf0086dd2c9@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:First day of spring registration period for continuing graduate stu
+ dents
+TRANSP:TRANSPARENT
+CATEGORIES:REGISTRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:9acc153deb51d615@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20270222
+DTEND;VALUE=DATE:20270223
+SUMMARY:First day of summer registration period for new graduate students
+TRANSP:TRANSPARENT
+CATEGORIES:REGISTRATION
+END:VEVENT
+BEGIN:VEVENT
+UID:685fda549c991ef7@neu-academic-calendar-ics
+DTSTAMP:20260914T165336Z
+DTSTART;VALUE=DATE:20270405
+DTEND;VALUE=DATE:20270406
+SUMMARY:First day of fall registration period for continuing graduate stude
+ nts
+TRANSP:TRANSPARENT
+CATEGORIES:REGISTRATION
+END:VEVENT
+END:VCALENDAR

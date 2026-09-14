@@ -37,14 +37,29 @@ jobs:
 
       - name: Commit if the published calendars changed
         run: |
-          if git diff --quiet -- docs/; then
-            echo "No calendar changes."
+          # GitHub disables scheduled workflows on public repos after 60 days
+          # with no repository activity. The registrar changes dates rarely, so
+          # without a heartbeat this job would switch itself off. Commit a
+          # timestamp if we are approaching that window.
+          days_idle=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
+          echo "Days since last commit: $days_idle"
+
+          if git diff --quiet -- docs/ && [ "$days_idle" -lt 50 ]; then
+            echo "No calendar changes, and the cron is not at risk."
             exit 0
           fi
+
+          date -u +%Y-%m-%d > docs/last-checked.txt
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/
-          git commit -m "chore: rebuild calendars ($(date -u +%Y-%m-%d))"
+
+          if git diff --cached --quiet -- docs/ ':!docs/last-checked.txt'; then
+            msg="chore: keepalive, no calendar changes ($(date -u +%Y-%m-%d))"
+          else
+            msg="chore: rebuild calendars ($(date -u +%Y-%m-%d))"
+            echo "### Calendars updated" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          git commit -m "$msg"
           git push
-          echo "### Calendars updated" >> "$GITHUB_STEP_SUMMARY"
           git show --stat --oneline HEAD >> "$GITHUB_STEP_SUMMARY"

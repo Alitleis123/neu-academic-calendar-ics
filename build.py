@@ -50,38 +50,71 @@ def check(events, year):
             "{}: got {} events, expected {}-{}. The PDF layout likely changed."
             .format(year, len(events), MIN_EVENTS, MAX_EVENTS))
 
-    months = {e[0].strftime("%b") for e in events}
+    months = {e.start.strftime("%b") for e in events}
     for term, needed in (("fall", "Sep"), ("spring", "Jan"), ("summer", "Jun")):
         if needed not in months:
             raise SanityError("{}: no {} events found (missing {}) — parse is incomplete."
                               .format(year, term, needed))
 
     lo, hi = dt.datetime(start_year, 7, 1), dt.datetime(start_year + 2, 1, 1)
-    stray = [(e[0], e[2]) for e in events if not lo <= e[0] < hi]
+    stray = [(e.start, e.title) for e in events if not lo <= e.start < hi]
     if stray:
         raise SanityError("{}: {} event(s) outside the academic year, e.g. {}"
                           .format(year, len(stray), stray[0]))
 
-    uncategorized = [e[2] for e in events if e[3] == "other"]
+    uncategorized = [e.title for e in events if e.category == "other"]
     if uncategorized:
         raise SanityError("{}: {} uncategorized event(s), e.g. {!r}. Add a rule to "
                           "neucal/categorize.py.".format(year, len(uncategorized),
                                                          uncategorized[0]))
 
 
-# (filename suffix, calendar-name suffix, predicate over category key)
-def _variants():
-    yield "", "", lambda k: True
-    yield "-essentials", " essentials", lambda k: k in categorize.ESSENTIALS
-    for key in categorize.keys():
-        yield "-" + key, " " + categorize.label(key), (lambda k, want=key: k == want)
+# An audience only gets per-category feeds if it is big enough for the split to
+# be useful; a 7-event branch does not need seven sub-branches.
+CATEGORY_SPLIT_MIN = 20
+
+
+def _variants(events):
+    """Yield (filename suffix, calendar-name suffix, predicate) over the tree.
+
+    Root is the entire university-wide calendar. Each audience is a branch, and
+    large audiences get category sub-branches.
+    """
+    yield "-all", " (all)", lambda e: True
+
+    present = [a for a in categorize.audience_keys()
+               if any(e.audience == a for e in events)]
+    for aud in present:
+        in_aud = [e for e in events if e.audience == aud]
+        label = categorize.audience_label(aud)
+        yield "-" + aud, " " + label, (lambda e, a=aud: e.audience == a)
+
+        if len(in_aud) < CATEGORY_SPLIT_MIN:
+            continue
+        yield ("-{}-essentials".format(aud), " {} essentials".format(label),
+               (lambda e, a=aud: e.audience == a and e.category in categorize.ESSENTIALS))
+        for cat in categorize.keys():
+            if not any(e.category == cat for e in in_aud):
+                continue
+            yield ("-{}-{}".format(aud, cat),
+                   " {} {}".format(label, categorize.label(cat)),
+                   (lambda e, a=aud, c=cat: e.audience == a and e.category == c))
+
+
+# Paths published before the audience dimension existed. Kept so anyone already
+# subscribed does not silently lose their calendar.
+LEGACY_ALIASES = {
+    "": "-undergrad",
+    "-essentials": "-undergrad-essentials",
+    **{"-" + c: "-undergrad-" + c for c in categorize.keys()},
+}
 
 
 def emit(events, year, url, stamp, prefix):
     """Write every variant for one year. Returns {suffix: count}."""
     written = {}
-    for suffix, name_suffix, keep in _variants():
-        subset = [e for e in events if keep(e[3])]
+    for suffix, name_suffix, keep in _variants(events):
+        subset = [e for e in events if keep(e)]
         if not subset:
             continue
         text = ics.render(
@@ -94,7 +127,13 @@ def emit(events, year, url, stamp, prefix):
             stamp=stamp,
         )
         write_if_changed(DOCS / "{}{}.ics".format(prefix, suffix), text)
-        written[suffix or "(all)"] = len(subset)
+        written[suffix] = len(subset)
+
+    for legacy, target in LEGACY_ALIASES.items():
+        src = DOCS / "{}{}.ics".format(prefix, target)
+        if src.exists():
+            write_if_changed(DOCS / "{}{}.ics".format(prefix, legacy),
+                             src.read_bytes().decode())
     return written
 
 
@@ -125,7 +164,8 @@ def main():
             continue
         emit(events, year, found[year], stamp, "neu-undergrad-" + year)
         built[year] = (events, stats)
-        print("  {}  {} events  {}".format(year, stats["kept"], stats["categories"]))
+        print("  {}  {} events  audiences={}".format(
+            year, stats["kept"], stats["audiences"]))
 
     # The newest year must always build — it is what the `current-*` feeds serve.
     if newest in failures:
@@ -136,30 +176,34 @@ def main():
     written = emit(events, newest, found[newest], stamp, "current")
     print("current* -> {}  ({} feeds)".format(newest, len(written)))
 
-    write_index(sorted(built), newest, built[newest][1]["categories"])
+    write_index(sorted(built), newest, built[newest][1], written)
     return 0
 
 
-def write_index(years, newest, counts):
+def write_index(years, newest, stats, written):
     from html import escape
-    feeds = [("current.ics", "Everything", sum(counts.values()),
-              "Every undergraduate event.")]
-    feeds.append(("current-essentials.ics", "Essentials", 
-                  sum(counts.get(k, 0) for k in categorize.ESSENTIALS),
-                  "Deadlines, exams, holidays. Recommended."))
-    for key in categorize.keys():
-        if counts.get(key):
-            feeds.append(("current-{}.ics".format(key), categorize.label(key),
-                          counts[key], categorize.blurb(key)))
 
-    rows = "\n".join(
-        '  <tr><td><strong>{label}</strong><br><small>{blurb}</small></td>'
-        '<td class="n">{n}</td><td><code class="f">{f}</code></td></tr>'.format(
-            label=escape(l), blurb=escape(b), n=n, f=escape(f))
-        for f, l, n, b in feeds)
+    def row(suffix, label, depth):
+        n = written.get(suffix)
+        if not n:
+            return ""
+        return ('  <tr><td class="d{d}">{label}</td><td class="n">{n}</td>'
+                '<td><code class="f">current{sfx}.ics</code></td></tr>').format(
+            d=depth, label=escape(label), n=n, sfx=escape(suffix))
+
+    lines = [row("-all", "Entire university-wide calendar", 0)]
+    for aud in categorize.audience_keys():
+        if not written.get("-" + aud):
+            continue
+        lines.append(row("-" + aud, categorize.audience_label(aud), 1))
+        lines.append(row("-{}-essentials".format(aud),
+                         "Essentials (deadlines + exams + holidays)", 2))
+        for cat in categorize.keys():
+            lines.append(row("-{}-{}".format(aud, cat), categorize.label(cat), 2))
+    rows = "\n".join(l for l in lines if l)
 
     archive = "\n".join(
-        '    <li><a href="neu-undergrad-{y}.ics">{y}</a>{tag}</li>'.format(
+        '    <li><a href="neu-undergrad-{y}-all.ics">{y}</a>{tag}</li>'.format(
             y=escape(y), tag=" <em>(current)</em>" if y == newest else "")
         for y in reversed(years))
 
@@ -186,6 +230,9 @@ INDEX_HTML = """<!doctype html>
   td, th {{ text-align: left; padding: .6rem .5rem; border-bottom: 1px solid #e5e5e5;
             vertical-align: top; }}
   td.n {{ text-align: right; color: #666; white-space: nowrap; }}
+  td.d0 {{ font-weight: 600; }}
+  td.d1 {{ padding-left: 1.5rem; font-weight: 600; }}
+  td.d2 {{ padding-left: 3rem; color: #444; }}
   small {{ color: #666; }}
   code {{ background: #f4f4f5; padding: .15em .4em; border-radius: 4px;
           font-size: .82em; word-break: break-all; }}
@@ -195,13 +242,16 @@ INDEX_HTML = """<!doctype html>
 <body>
 <h1>Northeastern academic calendar, as iCalendar feeds</h1>
 <p>Northeastern publishes its academic calendar only as a PDF. This rebuilds it
-   weekly as <code>.ics</code> feeds, filtered to <strong>Boston-campus
-   undergraduate</strong> events and split by category so you can subscribe to
-   only what you want.</p>
+   weekly as <code>.ics</code> feeds, split by <strong>audience</strong> and
+   <strong>category</strong> so you can subscribe to exactly the slice you
+   want.</p>
 
 <h2>Pick a feed</h2>
+<p>The whole university-wide calendar is the root. Each audience is a branch;
+   the big ones split further by category. Subscribe at whatever depth suits
+   you &mdash; one link per calendar you want.</p>
 <table>
-  <tr><th>Feed</th><th class="n">Events</th><th>URL</th></tr>
+  <tr><th>Branch</th><th class="n">Events</th><th>URL</th></tr>
 {rows}
 </table>
 
@@ -217,8 +267,8 @@ INDEX_HTML = """<!doctype html>
 <ul>
 {archive}
 </ul>
-<p><small>Per-category files exist for past years too, as
-   <code>neu-undergrad-&lt;year&gt;-&lt;category&gt;.ics</code>.</small></p>
+<p><small>Every branch exists per-year too, as
+   <code>neu-undergrad-&lt;year&gt;-&lt;branch&gt;.ics</code>.</small></p>
 
 <footer>
   <p>Rebuilt {updated}. Source:

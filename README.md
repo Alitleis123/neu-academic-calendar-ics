@@ -7,57 +7,64 @@ undergraduate** events.
 
 ## Subscribe
 
-Pick the slice you want — subscribe to one, or several with different colours.
-Base URL: `https://alitleis123.github.io/neu-academic-calendar-ics/`
+The **entire university-wide calendar** is the root. Each audience is a branch;
+big branches split further by category. Subscribe at whatever depth you want —
+one link per calendar. Base URL:
+`https://alitleis123.github.io/neu-academic-calendar-ics/`
 
-| Feed | Events | What's in it |
+| Branch | Events | Feed |
 |---|--:|---|
-| `current-essentials.ics` | 49 | **Recommended.** Deadlines, exams, holidays. |
-| `current.ics` | 121 | Everything below, combined. |
-| `current-deadlines.ics` | 27 | Add/drop and withdrawal — the ones with money attached. |
-| `current-attendance.ics` | 36 | "I Am Here" confirmations and the drops for missing them. |
-| `current-classes.ics` | 24 | First/last day of each term, session, and third. |
-| `current-holidays.ics` | 13 | No-class days, fall break, spring break. |
-| `current-exams.ics` | 9 | Final exam periods. |
-| `current-admin.ics` | 9 | Degree conferral, next term's schedule posting. |
-| `current-registration.ics` | 3 | When your registration window opens. |
+| Entire university-wide calendar | 159 | `current-all.ics` |
+| ├ **Boston undergraduate** | 121 | `current-undergrad.ics` |
+| │ ├ Essentials *(recommended)* | 49 | `current-undergrad-essentials.ics` |
+| │ ├ Attendance (I Am Here) | 36 | `current-undergrad-attendance.ics` |
+| │ ├ Add/drop & withdrawal | 27 | `current-undergrad-deadlines.ics` |
+| │ ├ Term start & end | 24 | `current-undergrad-classes.ics` |
+| │ ├ Holidays & breaks | 13 | `current-undergrad-holidays.ics` |
+| │ ├ Final exam periods | 9 | `current-undergrad-exams.ics` |
+| │ ├ Conferral & schedules | 9 | `current-undergrad-admin.ics` |
+| │ └ Registration periods | 3 | `current-undergrad-registration.ics` |
+| ├ Faculty grade deadlines | 14 | `current-faculty.ics` |
+| ├ Canadian campuses | 9 | `current-canada-campus.ics` |
+| ├ School of Law | 7 | `current-law.ics` |
+| ├ Graduate-only | 4 | `current-grad-only.ics` |
+| ├ Other US campuses | 2 | `current-other-campus.ics` |
+| └ ABSN & CPS | 2 | `current-other-program.ics` |
 
-In Google Calendar: **Other calendars → + → From URL**, paste, subscribe.
+In Google Calendar: **Other calendars → + → From URL**, paste one, subscribe.
+One URL = one calendar = one checkbox. Want three branches? Subscribe three
+times; each gets its own colour and toggle.
 
-Attendance is 36 of the 121 events — nearly a third — which is why it's split
-out. `current-essentials.ics` is the version most people actually want.
+Every `current-*` feed tracks the newest academic year automatically, so when
+Northeastern posts the next one it appears without you doing anything. Fixed
+years are published too, as `neu-undergrad-<YYYY>-<YYYY>-<branch>.ics`.
 
-Every `current-*` feed tracks the newest academic year the registrar has posted,
-so when Northeastern publishes the next one it appears automatically — no
-re-subscribing. Per-year, per-category files are published too, as
-`neu-undergrad-<YYYY>-<YYYY>[-<category>].ics`.
+Events carry ICS `CATEGORIES`, so clients that expose it (Apple Calendar,
+Thunderbird) can filter a combined feed directly.
 
-Events also carry an ICS `CATEGORIES` property, so clients that expose it
-(Apple Calendar, Thunderbird) can filter the combined feed directly.
+**Legacy paths.** `current.ics` and `current-<category>.ics` predate the
+audience dimension and still resolve to the Boston-undergraduate branch, so
+existing subscriptions keep working.
 
-> Subscribed feeds are read-only, and Google refreshes them on its own schedule
-> (often up to 24h). If you want editable events or an immediate update,
-> download a year file and use **Import** instead.
+## Audiences
 
-## What gets filtered
+The registrar's PDF is *university-wide*. Nothing is discarded — every row is
+labelled with the audience it applies to and published as its own branch:
 
-The registrar's PDF is *university-wide*. Each row is dropped if it is:
-
-| Reason | Example |
+| Audience | Example |
 |---|---|
+| `undergrad` | The default — anything not matched below |
 | `law` | School of Law / JD classes, exams, registration |
 | `canada-campus` | `CAN:` holidays (Vancouver, Toronto) |
-| `faculty` | Faculty grade deadlines — not student-facing |
+| `faculty` | Faculty grade deadlines — i.e. when grades post |
 | `grad-only` | Graduate registration that doesn't also name undergraduates |
 | `other-campus` | Charlotte, Oakland/Silicon Valley, etc. |
 | `other-program` | ABSN, College of Professional Studies |
 | `quarter-calendar` | `QTR:` rows — programs on quarters, not semesters |
 
-Boston-specific rows are kept (e.g. Patriots Day, "Boston and Portland only").
-
-**Not on the Boston campus?** Edit `OTHER_CAMPUSES` and `exclusion_reason()` in
-`neucal/parse.py`. Want faculty grade deadlines (they tell you when grades post)?
-Delete the `faculty` branch.
+Boston-specific rows count as undergraduate (e.g. Patriots Day, "Boston and
+Portland only"). **Not on the Boston campus?** Edit `OTHER_CAMPUSES` and
+`AUDIENCES` in `neucal/categorize.py`.
 
 Five first-day/last-day row pairs are collapsed into single multi-day events —
 fall/spring break and the three final exam periods. This is derived from the row
@@ -87,6 +94,11 @@ updates events in place instead of duplicating them.
 **Idempotent.** `DTSTAMP` is ignored when deciding whether to write, so the weekly
 job only commits when the calendar actually changed. The git history of `docs/`
 is therefore a record of when the registrar revised dates.
+
+**Cron keepalive.** GitHub disables scheduled workflows on public repos after 60
+days of repository inactivity. Since the registrar changes dates rarely, the job
+would eventually switch itself off — so if the last commit is more than 50 days
+old it writes `docs/last-checked.txt` to keep the schedule alive.
 
 ## Guardrails
 

@@ -1,9 +1,16 @@
-"""Turn extracted calendar lines into filtered, undergraduate-scoped events."""
+"""Turn extracted calendar lines into labelled events.
 
+Nothing is discarded here. Every row gets an audience and a category, and
+build.py decides which slices to publish.
+"""
+
+import collections
 import re
 from datetime import datetime, timedelta
 
 from . import categorize
+
+Event = collections.namedtuple("Event", "start end title category audience")
 
 _DATE = re.compile(r"^([A-Z][a-z]{2}) (\d{1,2}), (\d{4})$")
 _MONTHS = {m: i + 1 for i, m in enumerate(
@@ -41,24 +48,19 @@ def parse_rows(lines):
     return [(d, " ".join(parts)) for d, parts in rows]
 
 
+def audience(text):
+    """Which population this university-wide row applies to."""
+    return categorize.audience(text, _CAMPUS_ONLY, bool(OTHER_CAMPUSES))
+
+
 def exclusion_reason(text):
-    """Why this university-wide row is not a Boston undergraduate event, or None."""
-    if "School of Law" in text or re.search(r"\b(JD|Law)\b", text):
-        return "law"
-    if "ABSN" in text or "College of Professional Studies" in text:
-        return "other-program"
-    if text.startswith("CAN:"):
-        return "canada-campus"
-    if text.startswith("QTR:"):
-        return "quarter-calendar"
-    if _CAMPUS_ONLY.search(text) and "Boston" not in text:
-        return "other-campus"
-    if text.startswith("Faculty grade deadline"):
-        return "faculty"
-    # \b keeps this from matching inside "undergraduate"
-    if re.search(r"\bgraduate\b", text) and not re.search(r"\bundergraduate\b", text):
-        return "grad-only"
-    return None
+    """Deprecated: the audience a row belongs to, or None if Boston undergraduate.
+
+    Kept because "is this an undergraduate row" reads better than an equality
+    check at several call sites.
+    """
+    key = audience(text)
+    return None if key == "undergrad" else key
 
 
 # (opening row, closing row, title, whether the closing row is itself in the span)
@@ -97,27 +99,27 @@ def collapse_spans(events):
 
 
 def build(lines):
-    """lines -> (events, stats).
-
-    Each event is (start, end_inclusive, title, category_key).
-    """
+    """lines -> (events, stats). Each event is an Event namedtuple."""
     rows = parse_rows(lines)
-    dropped = {}
-    kept = []
+
+    # Collapse spans per audience: a "first day of fall break" row and its
+    # "fall classes resume" partner always belong to the same population, and
+    # collapsing across audiences could pair unrelated rows.
+    by_audience = collections.OrderedDict()
     for date, text in rows:
-        reason = exclusion_reason(text)
-        if reason:
-            dropped[reason] = dropped.get(reason, 0) + 1
-        else:
-            kept.append((date, text))
+        by_audience.setdefault(audience(text), []).append((date, text))
 
-    singles, spans = collapse_spans(kept)
-    events = [(d, d, t) for d, t in singles] + spans
-    events = [(a, b, t, categorize.categorize(t)[0]) for a, b, t in events]
-    events.sort(key=lambda e: (e[0], e[2]))
+    events = []
+    for aud, items in by_audience.items():
+        singles, spans = collapse_spans(items)
+        for d, t in singles:
+            events.append(Event(d, d, t, categorize.categorize(t)[0], aud))
+        for a, b, t in spans:
+            events.append(Event(a, b, t, categorize.categorize(t)[0], aud))
+    events.sort(key=lambda e: (e.start, e.title))
 
-    counts = {}
-    for _, _, _, key in events:
-        counts[key] = counts.get(key, 0) + 1
+    audiences = collections.Counter(e.audience for e in events)
+    categories = collections.Counter(
+        e.category for e in events if e.audience == "undergrad")
     return events, {"parsed": len(rows), "kept": len(events),
-                    "dropped": dropped, "categories": counts}
+                    "audiences": dict(audiences), "categories": dict(categories)}
