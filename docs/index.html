@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Northeastern Undergraduate Academic Calendar &rarr; iCalendar</title>
+<style>
+  body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         max-width: 44rem; margin: 3rem auto; padding: 0 1.25rem; color: #1a1a1a; }
+  code { background: #f4f4f5; padding: .15em .4em; border-radius: 4px;
+          font-size: .9em; word-break: break-all; }
+  .feed { background: #f4f4f5; padding: 1rem; border-radius: 8px; }
+  footer { margin-top: 3rem; font-size: .85em; color: #666; }
+</style>
+</head>
+<body>
+<h1>Northeastern academic calendar, as an iCalendar feed</h1>
+<p>Northeastern publishes its academic calendar only as a PDF. This rebuilds it
+   weekly as an <code>.ics</code> feed, filtered to <strong>Boston-campus
+   undergraduate</strong> events.</p>
+
+<h2>Subscribe</h2>
+<div class="feed"><code id="u"></code></div>
+<p>In Google Calendar: <strong>Other calendars &rarr; + &rarr; From URL</strong>,
+   paste that, and subscribe. It always serves the newest academic year
+   (currently <strong>2026-2027</strong>), so you never re-subscribe.</p>
+<p><em>Subscribed feeds are read-only and Google refreshes them on its own
+   schedule &mdash; often up to 24 hours. If you want the events editable, or
+   want them immediately, download a file below and import it instead.</em></p>
+
+<h2>Download a specific year</h2>
+<ul>
+      <li><a href="neu-undergrad-2026-2027.ics">2026-2027</a> <em>(current)</em></li>
+      <li><a href="neu-undergrad-2025-2026.ics">2025-2026</a></li>
+</ul>
+
+<footer>
+  <p>Rebuilt 2026-09-14. Source:
+     <a href="https://registrar.northeastern.edu/article/academic-calendar/">NEU
+     Office of the University Registrar</a>. Dates are subject to change and this
+     is an unofficial mirror &mdash; verify anything that matters against the
+     registrar.</p>
+</footer>
+<script>document.getElementById('u').textContent =
+  location.href.replace(/(index\.html)?(#.*)?$/, '') + 'current.ics';</script>
+</body>
+</html>

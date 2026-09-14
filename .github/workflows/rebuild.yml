@@ -1,0 +1,50 @@
+name: Rebuild calendars
+
+on:
+  schedule:
+    # Mondays 12:00 UTC. The registrar posts new calendars a few times a year;
+    # weekly is frequent enough to catch one within days.
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore: ["docs/**"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Rebuild calendars
+        # build.py exits non-zero if the registrar's format changed, so a
+        # broken parse fails the job instead of publishing an empty calendar.
+        run: python build.py
+
+      - name: Commit if the published calendars changed
+        run: |
+          if git diff --quiet -- docs/; then
+            echo "No calendar changes."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git commit -m "chore: rebuild calendars ($(date -u +%Y-%m-%d))"
+          git push
+          echo "### Calendars updated" >> "$GITHUB_STEP_SUMMARY"
+          git show --stat --oneline HEAD >> "$GITHUB_STEP_SUMMARY"
