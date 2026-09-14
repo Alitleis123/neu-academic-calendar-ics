@@ -4,17 +4,15 @@ PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
  N
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:NEU Undergrad 2025-2026 Boston undergraduate Class schedule po
- sting
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 (Bost
- on undergraduate Boston undergraduate Class schedule posting). Source: htt
- ps://registrar.northeastern.edu/wp-content/uploads/sites/9/2025-2026-Acade
- mic-Calendar.pdf
+X-WR-CALNAME:NEU Undergrad 2025-2026 — Class schedule posting
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — C
+ lass schedule posting. Source: https://registrar.northeastern.edu/wp-conte
+ nt/uploads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:6dc267efeba2c2aa@neu-academic-calendar-ics
-DTSTAMP:20260914T170750Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20251014
 DTEND;VALUE=DATE:20251015
 SUMMARY:Spring class schedule available
@@ -23,7 +21,7 @@ CATEGORIES:SCHEDULE
 END:VEVENT
 BEGIN:VEVENT
 UID:741db850466a74cc@neu-academic-calendar-ics
-DTSTAMP:20260914T170750Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20260202
 DTEND;VALUE=DATE:20260203
 SUMMARY:Summer class schedule available
@@ -32,7 +30,7 @@ CATEGORIES:SCHEDULE
 END:VEVENT
 BEGIN:VEVENT
 UID:277a28076fd3838b@neu-academic-calendar-ics
-DTSTAMP:20260914T170750Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20260316
 DTEND;VALUE=DATE:20260317
 SUMMARY:Fall class schedule available

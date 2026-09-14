@@ -4,15 +4,15 @@ PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
  N
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:NEU Undergrad 2025-2026 Other US campuses
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 (Bost
- on undergraduate Other US campuses). Source: https://registrar.northeaster
- n.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+X-WR-CALNAME:NEU 2025-2026 — Other US campuses
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — O
+ ther US campuses. Source: https://registrar.northeastern.edu/wp-content/up
+ loads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:6698963d540bceda@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20260331
 DTEND;VALUE=DATE:20260401
 SUMMARY:USA: Cesar Chavez Day\, no classes (Oakland and Silicon Valley only
@@ -22,7 +22,7 @@ CATEGORIES:HOLIDAY
 END:VEVENT
 BEGIN:VEVENT
 UID:b48a2cef034acd57@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20260403
 DTEND;VALUE=DATE:20260404
 SUMMARY:USA: Good Friday\, no classes (Charlotte only)

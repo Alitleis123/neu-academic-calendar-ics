@@ -4,17 +4,15 @@ PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
  N
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:NEU Undergrad 2025-2026 Quarter-calendar programs Holidays & b
- reaks
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 (Bost
- on undergraduate Quarter-calendar programs Holidays & breaks). Source: htt
- ps://registrar.northeastern.edu/wp-content/uploads/sites/9/2025-2026-Acade
- mic-Calendar.pdf
+X-WR-CALNAME:NEU 2025-2026 — Quarter-calendar programs Holidays & breaks
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — Q
+ uarter-calendar programs Holidays & breaks. Source: https://registrar.nort
+ heastern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:aa7562f99370e05d@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20251124
 DTEND;VALUE=DATE:20251125
 SUMMARY:QTR: First day of fall break
@@ -23,7 +21,7 @@ CATEGORIES:HOLIDAY
 END:VEVENT
 BEGIN:VEVENT
 UID:5e9ae7e6b6d7b94f@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20251201
 DTEND;VALUE=DATE:20251202
 SUMMARY:QTR: Fall classes resume

@@ -80,7 +80,7 @@ def _variants(events):
     Root is the entire university-wide calendar. Each audience is a branch, and
     large audiences get category sub-branches.
     """
-    yield "-all", " (all)", lambda e: True
+    yield "-all", " University-wide", lambda e: True
 
     present = [a for a in categorize.audience_keys()
                if any(e.audience == a for e in events)]
@@ -127,12 +127,23 @@ def emit(events, year, url, stamp, prefix):
         subset = [e for e in events if keep(e)]
         if not subset:
             continue
+        # "NEU Undergrad <year>" already says Boston undergraduate; repeating the
+        # audience label produced "NEU Undergrad 2026-2027 Boston undergraduate".
+        pretty = name_suffix.strip()
+        if pretty.startswith("Boston undergraduate"):
+            pretty = pretty[len("Boston undergraduate"):].strip()
+        title = "NEU {} {}".format("Undergrad" if not pretty or
+                                   suffix.startswith("-undergrad") else "", year)
+        title = " ".join(title.split())
+        if pretty:
+            title += " — " + pretty
+
         text = ics.render(
             subset,
-            name="NEU Undergrad {}{}".format(year, name_suffix),
-            description=("Northeastern University-Wide Academic Calendar {} "
-                         "(Boston undergraduate{}). Source: {}"
-                         .format(year, name_suffix or "", url)),
+            name=title,
+            description=("Northeastern University-Wide Academic Calendar {}{}. "
+                         "Source: {}".format(
+                             year, " — " + pretty if pretty else "", url)),
             namespace=NAMESPACE,
             stamp=stamp,
         )

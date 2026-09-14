@@ -4,15 +4,15 @@ PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
  N
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:NEU Undergrad 2026-2027 Other US campuses
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 (Bost
- on undergraduate Other US campuses). Source: https://registrar.northeaster
- n.edu/wp-content/uploads/sites/9/2026-2027-Academic-Calendar.pdf
+X-WR-CALNAME:NEU 2026-2027 — Other US campuses
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 — O
+ ther US campuses. Source: https://registrar.northeastern.edu/wp-content/up
+ loads/sites/9/2026-2027-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:640143890cae7404@neu-academic-calendar-ics
-DTSTAMP:20260914T165336Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20270326
 DTEND;VALUE=DATE:20270327
 SUMMARY:USA: Good Friday\, no classes (Charlotte only)
@@ -21,7 +21,7 @@ CATEGORIES:HOLIDAY
 END:VEVENT
 BEGIN:VEVENT
 UID:1f82f207667bb315@neu-academic-calendar-ics
-DTSTAMP:20260914T165336Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20270331
 DTEND;VALUE=DATE:20270401
 SUMMARY:USA: Farmworkers Day\, no classes (Oakland and Silicon Valley only)

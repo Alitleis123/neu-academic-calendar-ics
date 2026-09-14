@@ -4,17 +4,16 @@ PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
  N
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:NEU Undergrad 2025-2026 Quarter-calendar programs Registration
-  periods
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 (Bost
- on undergraduate Quarter-calendar programs Registration periods). Source: 
- https://registrar.northeastern.edu/wp-content/uploads/sites/9/2025-2026-Ac
- ademic-Calendar.pdf
+X-WR-CALNAME:NEU 2025-2026 — Quarter-calendar programs Registration perio
+ ds
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — Q
+ uarter-calendar programs Registration periods. Source: https://registrar.n
+ ortheastern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:e1efad2542b26b5f@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20251103
 DTEND;VALUE=DATE:20251104
 SUMMARY:QTR: First day of winter registration period for new students
@@ -23,7 +22,7 @@ CATEGORIES:REGISTRATION
 END:VEVENT
 BEGIN:VEVENT
 UID:cd5fd1d18f53563f@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20251110
 DTEND;VALUE=DATE:20251111
 SUMMARY:QTR: First day of winter registration period for continuing student
@@ -33,7 +32,7 @@ CATEGORIES:REGISTRATION
 END:VEVENT
 BEGIN:VEVENT
 UID:25034047371a7b5f@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20260202
 DTEND;VALUE=DATE:20260203
 SUMMARY:QTR: First day of spring registration period for new students
@@ -42,7 +41,7 @@ CATEGORIES:REGISTRATION
 END:VEVENT
 BEGIN:VEVENT
 UID:aeab1c2b43d7b687@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20260209
 DTEND;VALUE=DATE:20260210
 SUMMARY:QTR: First day of spring registration period for continuing student
@@ -52,7 +51,7 @@ CATEGORIES:REGISTRATION
 END:VEVENT
 BEGIN:VEVENT
 UID:dd59ccf93603d91f@neu-academic-calendar-ics
-DTSTAMP:20260914T165348Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20260330
 DTEND;VALUE=DATE:20260331
 SUMMARY:QTR: First day of summer registration period for continuing student

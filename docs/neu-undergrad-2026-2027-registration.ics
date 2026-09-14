@@ -4,17 +4,15 @@ PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
  N
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:NEU Undergrad 2026-2027 Boston undergraduate Registration peri
- ods
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 (Bost
- on undergraduate Boston undergraduate Registration periods). Source: https
- ://registrar.northeastern.edu/wp-content/uploads/sites/9/2026-2027-Academi
- c-Calendar.pdf
+X-WR-CALNAME:NEU Undergrad 2026-2027 — Registration periods
+X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 — R
+ egistration periods. Source: https://registrar.northeastern.edu/wp-content
+ /uploads/sites/9/2026-2027-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:2400f3ef3f3e1d30@neu-academic-calendar-ics
-DTSTAMP:20260914T165336Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20261116
 DTEND;VALUE=DATE:20261117
 SUMMARY:First day of spring registration period for undergraduate students
@@ -23,7 +21,7 @@ CATEGORIES:REGISTRATION
 END:VEVENT
 BEGIN:VEVENT
 UID:66e1ece0ceb07138@neu-academic-calendar-ics
-DTSTAMP:20260914T165336Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20270301
 DTEND;VALUE=DATE:20270302
 SUMMARY:First day of summer registration period for continuing graduate stu
@@ -33,7 +31,7 @@ CATEGORIES:REGISTRATION
 END:VEVENT
 BEGIN:VEVENT
 UID:5dfda19a727caaef@neu-academic-calendar-ics
-DTSTAMP:20260914T165336Z
+DTSTAMP:20260914T171753Z
 DTSTART;VALUE=DATE:20270412
 DTEND;VALUE=DATE:20270413
 SUMMARY:First day of fall registration period for continuing undergraduate 
