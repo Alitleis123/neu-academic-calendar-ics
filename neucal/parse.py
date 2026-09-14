@@ -3,6 +3,8 @@
 import re
 from datetime import datetime, timedelta
 
+from . import categorize
+
 _DATE = re.compile(r"^([A-Z][a-z]{2}) (\d{1,2}), (\d{4})$")
 _MONTHS = {m: i + 1 for i, m in enumerate(
     "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split())}
@@ -47,6 +49,8 @@ def exclusion_reason(text):
         return "other-program"
     if text.startswith("CAN:"):
         return "canada-campus"
+    if text.startswith("QTR:"):
+        return "quarter-calendar"
     if _CAMPUS_ONLY.search(text) and "Boston" not in text:
         return "other-campus"
     if text.startswith("Faculty grade deadline"):
@@ -93,7 +97,10 @@ def collapse_spans(events):
 
 
 def build(lines):
-    """lines -> (all_day_events, stats). Each event is (start, end_inclusive, title)."""
+    """lines -> (events, stats).
+
+    Each event is (start, end_inclusive, title, category_key).
+    """
     rows = parse_rows(lines)
     dropped = {}
     kept = []
@@ -106,5 +113,11 @@ def build(lines):
 
     singles, spans = collapse_spans(kept)
     events = [(d, d, t) for d, t in singles] + spans
+    events = [(a, b, t, categorize.categorize(t)[0]) for a, b, t in events]
     events.sort(key=lambda e: (e[0], e[2]))
-    return events, {"parsed": len(rows), "kept": len(events), "dropped": dropped}
+
+    counts = {}
+    for _, _, _, key in events:
+        counts[key] = counts.get(key, 0) + 1
+    return events, {"parsed": len(rows), "kept": len(events),
+                    "dropped": dropped, "categories": counts}

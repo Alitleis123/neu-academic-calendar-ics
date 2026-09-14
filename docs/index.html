@@ -6,33 +6,53 @@
 <title>Northeastern Undergraduate Academic Calendar &rarr; iCalendar</title>
 <style>
   body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-         max-width: 44rem; margin: 3rem auto; padding: 0 1.25rem; color: #1a1a1a; }
+         max-width: 52rem; margin: 3rem auto; padding: 0 1.25rem; color: #1a1a1a; }
+  table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; }
+  td, th { text-align: left; padding: .6rem .5rem; border-bottom: 1px solid #e5e5e5;
+            vertical-align: top; }
+  td.n { text-align: right; color: #666; white-space: nowrap; }
+  small { color: #666; }
   code { background: #f4f4f5; padding: .15em .4em; border-radius: 4px;
-          font-size: .9em; word-break: break-all; }
-  .feed { background: #f4f4f5; padding: 1rem; border-radius: 8px; }
+          font-size: .82em; word-break: break-all; }
   footer { margin-top: 3rem; font-size: .85em; color: #666; }
 </style>
 </head>
 <body>
-<h1>Northeastern academic calendar, as an iCalendar feed</h1>
+<h1>Northeastern academic calendar, as iCalendar feeds</h1>
 <p>Northeastern publishes its academic calendar only as a PDF. This rebuilds it
-   weekly as an <code>.ics</code> feed, filtered to <strong>Boston-campus
-   undergraduate</strong> events.</p>
+   weekly as <code>.ics</code> feeds, filtered to <strong>Boston-campus
+   undergraduate</strong> events and split by category so you can subscribe to
+   only what you want.</p>
 
-<h2>Subscribe</h2>
-<div class="feed"><code id="u"></code></div>
+<h2>Pick a feed</h2>
+<table>
+  <tr><th>Feed</th><th class="n">Events</th><th>URL</th></tr>
+  <tr><td><strong>Everything</strong><br><small>Every undergraduate event.</small></td><td class="n">121</td><td><code class="f">current.ics</code></td></tr>
+  <tr><td><strong>Essentials</strong><br><small>Deadlines, exams, holidays. Recommended.</small></td><td class="n">49</td><td><code class="f">current-essentials.ics</code></td></tr>
+  <tr><td><strong>Attendance (I Am Here)</strong><br><small>Confirm-your-enrollment deadlines and the drops for missing them.</small></td><td class="n">36</td><td><code class="f">current-attendance.ics</code></td></tr>
+  <tr><td><strong>Add/drop &amp; withdrawal deadlines</strong><br><small>The ones with money attached.</small></td><td class="n">27</td><td><code class="f">current-deadlines.ics</code></td></tr>
+  <tr><td><strong>Final exam periods</strong><br><small>Final exam windows.</small></td><td class="n">9</td><td><code class="f">current-exams.ics</code></td></tr>
+  <tr><td><strong>Holidays &amp; breaks</strong><br><small>No-class days, fall break, spring break.</small></td><td class="n">13</td><td><code class="f">current-holidays.ics</code></td></tr>
+  <tr><td><strong>Registration periods</strong><br><small>When your registration window opens.</small></td><td class="n">3</td><td><code class="f">current-registration.ics</code></td></tr>
+  <tr><td><strong>Term start &amp; end dates</strong><br><small>First and last days of each term, session, and third.</small></td><td class="n">24</td><td><code class="f">current-classes.ics</code></td></tr>
+  <tr><td><strong>Degree conferral &amp; schedules</strong><br><small>Conferral dates and when next term&#x27;s schedule posts.</small></td><td class="n">9</td><td><code class="f">current-admin.ics</code></td></tr>
+</table>
+
 <p>In Google Calendar: <strong>Other calendars &rarr; + &rarr; From URL</strong>,
-   paste that, and subscribe. It always serves the newest academic year
-   (currently <strong>2026-2027</strong>), so you never re-subscribe.</p>
+   paste one, subscribe. Subscribe to several and colour them separately.</p>
+<p>Every feed tracks the newest academic year automatically (currently
+   <strong>2026-2027</strong>), so you never re-subscribe.</p>
 <p><em>Subscribed feeds are read-only and Google refreshes them on its own
-   schedule &mdash; often up to 24 hours. If you want the events editable, or
-   want them immediately, download a file below and import it instead.</em></p>
+   schedule &mdash; often up to 24 hours. For editable events, download a file
+   and use Import instead.</em></p>
 
-<h2>Download a specific year</h2>
+<h2>Archive</h2>
 <ul>
-      <li><a href="neu-undergrad-2026-2027.ics">2026-2027</a> <em>(current)</em></li>
-      <li><a href="neu-undergrad-2025-2026.ics">2025-2026</a></li>
+    <li><a href="neu-undergrad-2026-2027.ics">2026-2027</a> <em>(current)</em></li>
+    <li><a href="neu-undergrad-2025-2026.ics">2025-2026</a></li>
 </ul>
+<p><small>Per-category files exist for past years too, as
+   <code>neu-undergrad-&lt;year&gt;-&lt;category&gt;.ics</code>.</small></p>
 
 <footer>
   <p>Rebuilt 2026-09-14. Source:
@@ -41,7 +61,11 @@
      is an unofficial mirror &mdash; verify anything that matters against the
      registrar.</p>
 </footer>
-<script>document.getElementById('u').textContent =
-  location.href.replace(/(index\.html)?(#.*)?$/, '') + 'current.ics';</script>
+<script>
+  var base = location.href.replace(/(index\.html)?(\?.*)?(#.*)?$/, '');
+  document.querySelectorAll('code.f').forEach(function (el) {
+    el.textContent = base + el.textContent;
+  });
+</script>
 </body>
 </html>

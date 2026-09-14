@@ -33,7 +33,8 @@ def _uid(start, title, namespace):
 
 
 def render(events, name, description, namespace, stamp=None):
-    """events: iterable of (start, end_inclusive, title) dates."""
+    """events: iterable of (start, end_inclusive, title[, category_key])."""
+    from . import categorize
     stamp = stamp or datetime.utcnow()
     lines = [
         "BEGIN:VCALENDAR",
@@ -46,7 +47,9 @@ def render(events, name, description, namespace, stamp=None):
         "REFRESH-INTERVAL;VALUE=DURATION:P1D",
         "X-PUBLISHED-TTL:P1D",
     ]
-    for start, end, title in events:
+    for event in events:
+        start, end, title = event[:3]
+        cat_key = event[3] if len(event) > 3 else None
         lines += [
             "BEGIN:VEVENT",
             "UID:" + _uid(start, title, namespace),
@@ -56,8 +59,10 @@ def render(events, name, description, namespace, stamp=None):
             "DTEND;VALUE=DATE:{:%Y%m%d}".format(end + timedelta(days=1)),
             "SUMMARY:" + _esc(title),
             "TRANSP:TRANSPARENT",
-            "END:VEVENT",
         ]
+        if cat_key:
+            lines.append("CATEGORIES:" + categorize.categorize(title)[1])
+        lines.append("END:VEVENT")
     lines.append("END:VCALENDAR")
 
     folded = []

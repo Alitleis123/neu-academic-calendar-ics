@@ -5,7 +5,7 @@ import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
-from neucal import ics, parse
+from neucal import categorize, ics, parse, pdf
 
 
 class TestParseRows(unittest.TestCase):
@@ -114,6 +114,62 @@ class TestICS(unittest.TestCase):
             "Test", "Desc", "test-ns", stamp=dt.datetime(2030, 6, 6))
         uids = lambda t: [l for l in t.split("\r\n") if l.startswith("UID:")]
         self.assertEqual(uids(self.text), uids(again))
+
+
+class TestQuarterCalendar(unittest.TestCase):
+    def test_qtr_rows_excluded(self):
+        self.assertEqual(
+            parse.exclusion_reason("QTR: First day of full-quarter fall classes"),
+            "quarter-calendar")
+
+
+class TestPdfTokens(unittest.TestCase):
+    def test_next_line_operator_is_matched(self):
+        """T* marks a line break; a trailing \\b cannot follow '*', so it needs
+        its own alternative. Missing it glued words together across wraps."""
+        found = [m.group(0) for m in pdf._TOKEN.finditer(b"(for) T* (full-semester)")]
+        self.assertIn(b"T*", found)
+
+    def test_wrapped_text_gets_a_space(self):
+        lines = []
+        content = b"BT (I Am Here for) T* (full-semester) ET"
+        import re as _re
+        for obj in _re.finditer(rb"BT(.*?)ET", content, _re.S):
+            parts = []
+            for t in pdf._TOKEN.finditer(obj.group(1)):
+                tok = t.group(0)
+                parts.append(tok[1:-1].decode() if tok.startswith(b"(") else " ")
+            lines.append(_re.sub(r"\s+", " ", "".join(parts)).strip())
+        self.assertEqual(lines, ["I Am Here for full-semester"])
+
+
+class TestCategorize(unittest.TestCase):
+    def test_known_categories(self):
+        for title, key in [
+            ("First day of I Am Here for full-semester fall classes", "attendance"),
+            ("Last day of add/drop period for full-semester fall classes", "deadlines"),
+            ("Last day of withdrawal period for Session A fall classes", "deadlines"),
+            ("Fall Final Exam Period", "exams"),
+            ("USA: Labor Day, no classes", "holidays"),
+            ("Fall Break", "holidays"),
+            ("First day of spring registration period for undergraduate students", "registration"),
+            ("First day of full-semester fall classes", "classes"),
+            ("Fall degree conferral", "admin"),
+            ("Spring class schedule available", "admin"),
+        ]:
+            self.assertEqual(categorize.categorize(title)[0], key, title)
+
+    def test_attendance_wins_over_classes(self):
+        """'I Am Here' rows also mention classes; order must favour attendance."""
+        self.assertEqual(categorize.categorize(
+            "Last day of I Am Here for full-semester fall classes")[0], "attendance")
+
+    def test_essentials_are_real_categories(self):
+        for key in categorize.ESSENTIALS:
+            self.assertIn(key, categorize.keys())
+
+    def test_ics_value_is_uppercase(self):
+        self.assertEqual(categorize.categorize("Fall Break")[1], "HOLIDAY")
 
 
 if __name__ == "__main__":

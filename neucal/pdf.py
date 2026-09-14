@@ -10,7 +10,9 @@ import re
 import zlib
 
 _OCTAL = re.compile(rb"\\([0-7]{1,3})")
-_TOKEN = re.compile(rb"\((?:[^()\\]|\\.)*\)|\bT[dD*]\b")
+# Text chunks, plus the operators that move to a new line. T* must be matched
+# separately: a trailing \b cannot follow "*", which is not a word character.
+_TOKEN = re.compile(rb"\((?:[^()\\]|\\.)*\)|\bT[dD]\b|T\*")
 _TEXT_OBJ = re.compile(rb"BT(.*?)ET", re.S)
 _STREAM = re.compile(rb"stream\r?\n")
 
@@ -52,12 +54,14 @@ def to_lines(data):
         if not content:
             continue
         for obj in _TEXT_OBJ.finditer(content):
-            parts = [
-                _unescape(t.group(0)[1:-1]).decode("cp1252", "replace")
-                for t in _TOKEN.finditer(obj.group(1))
-                if t.group(0).startswith(b"(")
-            ]
-            line = "".join(parts).strip()
+            parts = []
+            for t in _TOKEN.finditer(obj.group(1)):
+                tok = t.group(0)
+                if tok.startswith(b"("):
+                    parts.append(_unescape(tok[1:-1]).decode("cp1252", "replace"))
+                else:
+                    parts.append(" ")          # positioning op = line break
+            line = re.sub(r"\s+", " ", "".join(parts)).strip()
             if line:
                 lines.append(line)
     if not lines:
