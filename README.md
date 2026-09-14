@@ -15,15 +15,27 @@ one link per calendar. Base URL:
 ### Bundles
 
 Common combinations, pre-merged so each is one subscription instead of several.
-A bundle is a union of categories — nothing exclusive to it.
+A bundle is a union of categories — nothing is exclusive to a bundle, so you can
+always rebuild one from its parts.
 
 | Bundle | Contains | Events | Feed |
 |---|---|--:|---|
+| **Everything except attendance** — the full calendar minus the I Am Here rows | all categories except `attendance` | 85 | `current-undergrad-no-attendance.ics` |
+| **Drop risk** — every date that can remove you from a course | attendance + deadlines | 63 | `current-undergrad-drop-risk.ics` |
 | **Essentials** — anything that costs money or cancels your day | deadlines + exams + holidays | 49 | `current-undergrad-essentials.ics` |
+| **Term shape** — when terms run and when you're off | classes + holidays | 37 | `current-undergrad-term-shape.ics` |
 | **Planning** — time off and when to sign up | holidays + registration | 16 | `current-undergrad-planning.ics` |
+| **Conferral & schedules** | conferral + schedules | 9 | `current-undergrad-admin.ics` |
+| **Enrollment** — schedule posts, then registration opens | registration + schedules | 6 | `current-undergrad-enrollment.ics` |
 
-Bundles exist for any audience large enough to be split by category, as
-`current-<audience>-<bundle>.ics`.
+Bundles overlap by design — `essentials` and `planning` both contain the 13
+holidays, so subscribing to both shows them twice. Combine non-overlapping
+pieces instead.
+
+Bundles exist for any audience large enough to split by category, as
+`current-<audience>-<bundle>.ics`. `no-attendance` derives its members from
+`CATEGORIES` rather than listing them, so a category added later is included
+automatically.
 
 ### Full tree
 
@@ -36,7 +48,8 @@ Bundles exist for any audience large enough to be split by category, as
 | │ ├ Term start & end | 24 | `current-undergrad-classes.ics` |
 | │ ├ Holidays & breaks | 13 | `current-undergrad-holidays.ics` |
 | │ ├ Final exam periods | 9 | `current-undergrad-exams.ics` |
-| │ ├ Conferral & schedules | 9 | `current-undergrad-admin.ics` |
+| │ ├ Class schedule posting | 3 | `current-undergrad-schedules.ics` |
+| │ ├ Degree conferral | 6 | `current-undergrad-conferral.ics` |
 | │ └ Registration periods | 3 | `current-undergrad-registration.ics` |
 | ├ Faculty grade deadlines | 14 | `current-faculty.ics` |
 | ├ Canadian campuses | 9 | `current-canada-campus.ics` |

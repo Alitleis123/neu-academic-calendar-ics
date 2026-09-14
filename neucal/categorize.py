@@ -36,9 +36,12 @@ CATEGORIES = (
     ("grades", "GRADES", "Grade deadlines",
      r"grade deadline",
      "When faculty must submit grades — effectively when grades post."),
-    ("admin", "ADMIN", "Degree conferral & schedules",
-     r"degree conferral|schedule available",
-     "Conferral dates and when next term's schedule posts."),
+    ("schedules", "SCHEDULE", "Class schedule posting",
+     r"schedule available",
+     "When next term's course schedule goes live, so you can plan picks."),
+    ("conferral", "CONFERRAL", "Degree conferral",
+     r"degree conferral",
+     "When degrees are formally awarded."),
 )
 
 # Bundles are named unions of categories — a third thing alongside audience and
@@ -50,6 +53,21 @@ BUNDLES = (
      "Anything that costs you money or cancels your day."),
     ("planning", "Planning", ("holidays", "registration"),
      "Time off and when to sign up for classes — for planning a term ahead."),
+    # Derived, not listed: a hand-written member list would silently omit any
+    # category added later.
+    ("no-attendance", "Everything except attendance",
+     tuple(c[0] for c in CATEGORIES if c[0] != "attendance"),
+     "The full calendar minus the I Am Here rows — the usual complaint."),
+    ("drop-risk", "Drop risk", ("attendance", "deadlines"),
+     "Every date that can remove you from a course: attendance confirmations "
+     "and add/drop or withdrawal deadlines."),
+    ("enrollment", "Enrollment", ("registration", "schedules"),
+     "When next term's schedule posts, and when your registration opens."),
+    ("term-shape", "Term shape", ("classes", "holidays"),
+     "First and last days of every term, session and third, plus breaks."),
+    # Kept because current-undergrad-admin.ics was published before the split.
+    ("admin", "Conferral & schedules", ("conferral", "schedules"),
+     "Degree conferral dates and schedule postings."),
 )
 
 _BUNDLE_BY_KEY = {k: (l, m, b) for k, l, m, b in BUNDLES}

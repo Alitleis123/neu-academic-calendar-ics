@@ -175,8 +175,8 @@ class TestCategorize(unittest.TestCase):
             ("Fall Break", "holidays"),
             ("First day of spring registration period for undergraduate students", "registration"),
             ("First day of full-semester fall classes", "classes"),
-            ("Fall degree conferral", "admin"),
-            ("Spring class schedule available", "admin"),
+            ("Fall degree conferral", "conferral"),
+            ("Spring class schedule available", "schedules"),
         ]:
             self.assertEqual(categorize.categorize(title)[0], key, title)
 
@@ -200,6 +200,26 @@ class TestCategorize(unittest.TestCase):
     def test_planning_is_holidays_plus_registration(self):
         self.assertEqual(set(categorize.bundle_members("planning")),
                          {"holidays", "registration"})
+
+    def test_no_attendance_derives_from_categories(self):
+        """Hand-listing members would silently omit a category added later."""
+        self.assertEqual(set(categorize.bundle_members("no-attendance")),
+                         set(categorize.keys()) - {"attendance"})
+
+    def test_keys_do_not_collide_across_dimensions(self):
+        """Bundles, categories and audiences share one URL namespace
+        (current-<audience>-<X>.ics), so a duplicate key would overwrite a feed."""
+        cats = set(categorize.keys())
+        bundles = set(categorize.bundle_keys())
+        auds = set(categorize.audience_keys())
+        self.assertEqual(cats & bundles, set(), "category/bundle collision")
+        self.assertEqual(cats & auds, set(), "category/audience collision")
+        self.assertEqual(bundles & auds, set(), "bundle/audience collision")
+
+    def test_every_bundle_has_at_least_two_members(self):
+        """A one-category bundle is just that category under another name."""
+        for b in categorize.bundle_keys():
+            self.assertGreaterEqual(len(categorize.bundle_members(b)), 2, b)
 
     def test_essentials_alias_matches_bundle(self):
         self.assertEqual(tuple(categorize.ESSENTIALS),
