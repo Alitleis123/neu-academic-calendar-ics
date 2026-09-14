@@ -106,12 +106,17 @@ def _variants(events):
                    (lambda e, a=aud, c=cat: e.audience == a and e.category == c))
 
 
-# Paths published before the audience dimension existed. Kept so anyone already
-# subscribed does not silently lose their calendar.
-LEGACY_ALIASES = {
+# Short forms that omit the audience and mean "undergraduate", which is what
+# almost everyone wants. These also cover the paths published before the
+# audience dimension existed, so nobody already subscribed loses their calendar.
+#
+# Every category AND bundle gets one. Publishing current-essentials.ics but not
+# current-planning.ics invites a guess that 404s, and a 404 subscription in
+# Google Calendar fails silently as an empty calendar rather than an error.
+SHORT_ALIASES = {
     "": "-undergrad",
-    "-essentials": "-undergrad-essentials",
-    **{"-" + c: "-undergrad-" + c for c in categorize.keys()},
+    **{"-" + k: "-undergrad-" + k
+       for k in list(categorize.keys()) + list(categorize.bundle_keys())},
 }
 
 
@@ -134,7 +139,7 @@ def emit(events, year, url, stamp, prefix):
         write_if_changed(DOCS / "{}{}.ics".format(prefix, suffix), text)
         written[suffix] = len(subset)
 
-    for legacy, target in LEGACY_ALIASES.items():
+    for legacy, target in SHORT_ALIASES.items():
         src = DOCS / "{}{}.ics".format(prefix, target)
         if src.exists():
             write_if_changed(DOCS / "{}{}.ics".format(prefix, legacy),

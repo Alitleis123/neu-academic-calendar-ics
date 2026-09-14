@@ -216,6 +216,14 @@ class TestCategorize(unittest.TestCase):
         self.assertEqual(cats & auds, set(), "category/audience collision")
         self.assertEqual(bundles & auds, set(), "bundle/audience collision")
 
+    def test_short_aliases_cover_categories_and_bundles(self):
+        """A short alias for some names but not others invites a guess that
+        404s — and Google Calendar treats a 404 feed as an empty calendar."""
+        import build
+        expected = {""} | {"-" + k for k in
+                           list(categorize.keys()) + list(categorize.bundle_keys())}
+        self.assertEqual(set(build.SHORT_ALIASES), expected)
+
     def test_every_bundle_has_at_least_two_members(self):
         """A one-category bundle is just that category under another name."""
         for b in categorize.bundle_keys():
