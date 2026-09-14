@@ -2,3 +2,10 @@ __pycache__/
 *.pyc
 .DS_Store
 .venv/
+.coverage
+htmlcov/
+.ruff_cache/
+build-report.json
+*.log
+.neucal-*.lock
+.neucal-stage-*/

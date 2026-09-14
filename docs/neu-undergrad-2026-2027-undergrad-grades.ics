@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
+CALSCALE:GREGORIAN
+NAME:NEU Undergrad 2026-2027 - Grade deadlines
+DESCRIPTION:Northeastern Academic Calendar 2026-2027. Boston undergraduate 
+ Grade deadlines. Source: https://registrar.northeastern.edu/wp-content/upl
+ oads/sites/9/2026-2027-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU Undergrad 2026-2027 - Grade deadlines
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2026-2027. Boston un
+ dergraduate Grade deadlines. Source: https://registrar.northeastern.edu/wp
+ -content/uploads/sites/9/2026-2027-Academic-Calendar.pdf
+REFRESH-INTERVAL;VALUE=DURATION:P1D
+X-PUBLISHED-TTL:P1D
+END:VCALENDAR

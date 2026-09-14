@@ -1,42 +1,52 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2025-2026 — Quarter-calendar programs Class schedule pos
- ting
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — Q
- uarter-calendar programs Class schedule posting. Source: https://registrar
- .northeastern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.p
- df
+NAME:NEU 2025-2026 - Quarter-calendar programs Class schedule posting
+DESCRIPTION:Northeastern Academic Calendar 2025-2026. Quarter-calendar prog
+ rams Class schedule posting. Source: https://registrar.northeastern.edu/wp
+ -content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2025-2026 - Quarter-calendar programs Class sch
+ edule posting
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2025-2026. Quarter-c
+ alendar programs Class schedule posting. Source: https://registrar.northea
+ stern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:2ac97aed339b3764@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20251020
 DTEND;VALUE=DATE:20251021
 SUMMARY:QTR: Winter class schedule available
 TRANSP:TRANSPARENT
 CATEGORIES:SCHEDULE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:b388fab109eef529@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260120
 DTEND;VALUE=DATE:20260121
 SUMMARY:QTR: Spring class schedule available
 TRANSP:TRANSPARENT
 CATEGORIES:SCHEDULE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:904ef822574f5cbe@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260316
 DTEND;VALUE=DATE:20260317
 SUMMARY:QTR: Summer class schedule available
 TRANSP:TRANSPARENT
 CATEGORIES:SCHEDULE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 END:VCALENDAR

@@ -1,32 +1,40 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2026-2027 — ABSN & CPS
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 — A
- BSN & CPS. Source: https://registrar.northeastern.edu/wp-content/uploads/s
- ites/9/2026-2027-Academic-Calendar.pdf
+NAME:NEU 2026-2027 - ABSN & CPS
+DESCRIPTION:Northeastern Academic Calendar 2026-2027. ABSN & CPS. Source: h
+ ttps://registrar.northeastern.edu/wp-content/uploads/sites/9/2026-2027-Aca
+ demic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2026-2027 - ABSN & CPS
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2026-2027. ABSN & CP
+ S. Source: https://registrar.northeastern.edu/wp-content/uploads/sites/9/2
+ 026-2027-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:1ea373f174973bb7@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270512
 DTEND;VALUE=DATE:20270513
 SUMMARY:First day of Fall registration period for ABSN Students
 TRANSP:TRANSPARENT
 CATEGORIES:REGISTRATION
+X-NEUCAL-AUDIENCE:other-program
 END:VEVENT
 BEGIN:VEVENT
 UID:2bd37dda6df92312@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270512
 DTEND;VALUE=DATE:20270513
 SUMMARY:First day of Fall registration period for new undergraduate and gra
  duate College of Professional Studies students
 TRANSP:TRANSPARENT
 CATEGORIES:REGISTRATION
+X-NEUCAL-AUDIENCE:other-program
 END:VEVENT
 END:VCALENDAR

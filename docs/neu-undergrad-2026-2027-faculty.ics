@@ -1,142 +1,168 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2026-2027 — Faculty deadlines
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2026-2027 — F
- aculty deadlines. Source: https://registrar.northeastern.edu/wp-content/up
- loads/sites/9/2026-2027-Academic-Calendar.pdf
+NAME:NEU 2026-2027 - Faculty deadlines
+DESCRIPTION:Northeastern Academic Calendar 2026-2027. Faculty deadlines. So
+ urce: https://registrar.northeastern.edu/wp-content/uploads/sites/9/2026-2
+ 027-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2026-2027 - Faculty deadlines
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2026-2027. Faculty d
+ eadlines. Source: https://registrar.northeastern.edu/wp-content/uploads/si
+ tes/9/2026-2027-Academic-Calendar.pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
-UID:936ba111294cc09d@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:403d6fad1fa3d1d3@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20261013
 DTEND;VALUE=DATE:20261014
-SUMMARY:Faculty grade deadline for initial-third fall classes at 2:00
+SUMMARY:Faculty grade deadline for initial-third fall classes at 2:00 p.m. 
+ ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:f301520720a70261@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:629043cfdbfd60eb@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20261027
 DTEND;VALUE=DATE:20261028
-SUMMARY:Faculty grade deadline for Session A fall classes at 2:00
+SUMMARY:Faculty grade deadline for Session A fall classes at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:33c4fe381264c9c5@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:9f921db330a40297@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20261117
 DTEND;VALUE=DATE:20261118
-SUMMARY:Faculty grade deadline for middle-third fall classes at 2:00
+SUMMARY:Faculty grade deadline for middle-third fall classes at 2:00 p.m. E
+ T
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:df6ce02589360603@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:254549c3155b3049@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20261222
 DTEND;VALUE=DATE:20261223
 SUMMARY:Faculty grade deadline for full-semester\, Session B\, and final-th
- ird fall classes at 2:00
+ ird fall classes at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:530fcc70affcb734@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
-DTSTART;VALUE=DATE:20270119
-DTEND;VALUE=DATE:20270120
-SUMMARY:Faculty grade deadline for full-semester fall classes for
-TRANSP:TRANSPARENT
-CATEGORIES:GRADES
-END:VEVENT
-BEGIN:VEVENT
-UID:9f9b82d2d7620ecd@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:1e9677f99dcb135e@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270216
 DTEND;VALUE=DATE:20270217
-SUMMARY:Faculty grade deadline for initial-third spring classes at
+SUMMARY:Faculty grade deadline for initial-third spring classes at 2:00 p.m
+ . ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:ac558c6728ba1da8@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:6baf7e0c5345cedb@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270302
 DTEND;VALUE=DATE:20270303
-SUMMARY:Faculty grade deadline for Session A spring classes at
+SUMMARY:Faculty grade deadline for Session A spring classes at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:6a72d3485e7f8b79@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:7d93e632881b56d2@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270330
 DTEND;VALUE=DATE:20270331
-SUMMARY:Faculty grade deadline for middle-third spring classes at
+SUMMARY:Faculty grade deadline for middle-third spring classes at 2:00 p.m.
+  ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:428675fea5b86763@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:ebf333bc04806bd3@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270504
 DTEND;VALUE=DATE:20270505
 SUMMARY:Faculty grade deadline for full-semester\, Session B\, and final-th
- ird spring classes at 2:00
+ ird spring classes at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:3693d64ef1429314@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
-DTSTART;VALUE=DATE:20270601
-DTEND;VALUE=DATE:20270602
-SUMMARY:Faculty grade deadline for full-semester spring classes for
-TRANSP:TRANSPARENT
-CATEGORIES:GRADES
-END:VEVENT
-BEGIN:VEVENT
-UID:6679e0a12b88eec2@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:59a64dd0cc2e59a3@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270615
 DTEND;VALUE=DATE:20270616
-SUMMARY:Faculty grade deadline for initial-third summer classes at
+SUMMARY:Faculty grade deadline for initial-third summer classes at 2:00 p.m
+ . ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:caa6b63e1bf97969@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:06350f5965b96511@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270629
 DTEND;VALUE=DATE:20270630
-SUMMARY:Faculty grade deadline for Session A summer classes at
+SUMMARY:Faculty grade deadline for Session A summer classes at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:605922476f4d6794@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:8538136e34dd33d0@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270720
 DTEND;VALUE=DATE:20270721
-SUMMARY:Faculty grade deadline for middle-third summer classes at
+SUMMARY:Faculty grade deadline for middle-third summer classes at 2:00 p.m.
+  ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 BEGIN:VEVENT
-UID:ee2d128e1e74e0dc@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+UID:11ba0ec7c5572c75@neu-academic-calendar-ics
+DTSTAMP:20260914T211030Z
+LAST-MODIFIED:20260914T211030Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20270824
 DTEND;VALUE=DATE:20270825
 SUMMARY:Faculty grade deadline for full-semester\, Session B\, and final-th
- ird summer classes at
+ ird summer classes at 2:00 p.m. ET
 TRANSP:TRANSPARENT
 CATEGORIES:GRADES
+X-NEUCAL-AUDIENCE:faculty
 END:VEVENT
 END:VCALENDAR

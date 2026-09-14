@@ -1,100 +1,130 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//neu-academic-calendar-ics//Northeastern Undergraduate Calendar//E
- N
+PRODID:-//neu-academic-calendar-ics//Northeastern Academic Calendar//EN
 CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:NEU 2025-2026 — Quarter-calendar programs Add/drop & withdra
- wal deadlines
-X-WR-CALDESC:Northeastern University-Wide Academic Calendar 2025-2026 — Q
- uarter-calendar programs Add/drop & withdrawal deadlines. Source: https://
- registrar.northeastern.edu/wp-content/uploads/sites/9/2025-2026-Academic-C
- alendar.pdf
+NAME:NEU 2025-2026 - Quarter-calendar programs Add/drop & withdrawal deadli
+ nes
+DESCRIPTION:Northeastern Academic Calendar 2025-2026. Quarter-calendar prog
+ rams Add/drop & withdrawal deadlines. Source: https://registrar.northeaste
+ rn.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.pdf
+X-WR-CALNAME;VALUE=TEXT:NEU 2025-2026 - Quarter-calendar programs Add/drop 
+ & withdrawal deadlines
+X-WR-CALDESC;VALUE=TEXT:Northeastern Academic Calendar 2025-2026. Quarter-c
+ alendar programs Add/drop & withdrawal deadlines. Source: https://registra
+ r.northeastern.edu/wp-content/uploads/sites/9/2025-2026-Academic-Calendar.
+ pdf
 REFRESH-INTERVAL;VALUE=DURATION:P1D
 X-PUBLISHED-TTL:P1D
 BEGIN:VEVENT
 UID:ac3f49419f817b73@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20251019
 DTEND;VALUE=DATE:20251020
 SUMMARY:QTR: Last day of withdrawal period for first-half fall classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:15be7f16827c569e@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20251207
 DTEND;VALUE=DATE:20251208
 SUMMARY:QTR: Last day of withdrawal period for full-quarter and second-half
   fall classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:8d050545fda496da@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260208
 DTEND;VALUE=DATE:20260209
 SUMMARY:QTR: Last day of withdrawal period for first-half winter classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:7e737d030481a007@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260322
 DTEND;VALUE=DATE:20260323
 SUMMARY:QTR: Last day of withdrawal period for full-quarter and second-half
   winter classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:63a1339644a8da84@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260510
 DTEND;VALUE=DATE:20260511
 SUMMARY:QTR: Last day of withdrawal period for first-half spring classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:899179325f390f8a@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260621
 DTEND;VALUE=DATE:20260622
 SUMMARY:QTR: Last day of withdrawal period for full-quarter and second-half
   spring classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:347ff4677f034aaa@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260726
 DTEND;VALUE=DATE:20260727
 SUMMARY:QTR: Last day of withdrawal period for Session A summer classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:a643a03a7953704a@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260809
 DTEND;VALUE=DATE:20260810
 SUMMARY:QTR: Last day of withdrawal period for six-week summer classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 BEGIN:VEVENT
 UID:223b396c826db0ab@neu-academic-calendar-ics
-DTSTAMP:20260914T171753Z
+DTSTAMP:20260914T171805Z
+LAST-MODIFIED:20260914T171805Z
+SEQUENCE:0
 DTSTART;VALUE=DATE:20260823
 DTEND;VALUE=DATE:20260824
 SUMMARY:QTR: Last day of withdrawal period for full-quarter and Session B s
  ummer classes
 TRANSP:TRANSPARENT
 CATEGORIES:DEADLINE
+X-NEUCAL-AUDIENCE:quarter-calendar
 END:VEVENT
 END:VCALENDAR
